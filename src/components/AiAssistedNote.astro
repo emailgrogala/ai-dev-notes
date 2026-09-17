@@ -1,0 +1,41 @@
+---
+interface Props { lang: 'pl' | 'en'; }
+const { lang } = Astro.props;
+
+const content = lang === 'pl'
+  ? {
+      label: 'Przy wsparciu AI',
+      text: 'Ten materiał powstał w procesie współpracy człowieka z narzędziami AI. AI wspierało przygotowanie treści i formy, a człowiek określił cel, wybrał kierunek, zweryfikował rezultat i zatwierdził ostateczną wersję.'
+    }
+  : {
+      label: 'AI-assisted',
+      text: 'This material was created through collaboration between a human and AI tools. AI supported the content and presentation, while the human defined the goal, chose the direction, reviewed the result, and approved the final version.'
+    };
+---
+
+<aside class="ai-assisted-note" aria-label={content.label}>
+  <strong>{content.label}</strong>
+  <p>{content.text}</p>
+</aside>
+
+<style>
+  .ai-assisted-note {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+  }
+
+  .ai-assisted-note strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #334155;
+    font-size: 0.88rem;
+  }
+
+  .ai-assisted-note p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+</style>

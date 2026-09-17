@@ -1,0 +1,59 @@
+---
+interface Props {
+  lang: 'pl' | 'en';
+  plHref?: string;
+  enHref?: string;
+}
+
+const {
+  lang,
+  plHref = '/pl/',
+  enHref = '/en/'
+} = Astro.props;
+
+const navLabel = lang === 'pl' ? 'Wybór języka' : 'Language selection';
+---
+
+<nav class="language-switch" aria-label={navLabel}>
+  <a
+    href={plHref}
+    aria-current={lang === 'pl' ? 'page' : undefined}
+  >
+    PL
+  </a>
+
+  <span>/</span>
+
+  <a
+    href={enHref}
+    aria-current={lang === 'en' ? 'page' : undefined}
+  >
+    EN
+  </a>
+</nav>
+
+<style>
+  .language-switch {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .language-switch a {
+    color: #64748b;
+  }
+
+  .language-switch a:hover {
+    color: #111827;
+  }
+
+  .language-switch a[aria-current="page"] {
+    color: #111827;
+    font-weight: 700;
+  }
+
+  .language-switch span {
+    color: #cbd5e1;
+  }
+</style>

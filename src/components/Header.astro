@@ -1,0 +1,106 @@
+---
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  lang: 'pl' | 'en';
+  plHref?: string;
+  enHref?: string;
+}
+
+const {
+  lang,
+  plHref = '/pl/',
+  enHref = '/en/',
+} = Astro.props;
+
+const aboutLabel = lang === 'pl' ? 'O projekcie' : 'About';
+const aboutHref = `/${lang}/about/`;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a
+      class="brand"
+      href={`/${lang}/`}
+      aria-label="AI Dev Notes"
+    >
+      AI Dev Notes
+    </a>
+
+    <nav
+      class="site-nav"
+      aria-label={lang === 'pl' ? 'Główna nawigacja' : 'Main navigation'}
+    >
+      <a href={aboutHref}>{aboutLabel}</a>
+
+      <LanguageSwitch
+        lang={lang}
+        plHref={plHref}
+        enHref={enHref}
+      />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-header__inner {
+    width: min(1080px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    color: inherit;
+    font-size: 1.05rem;
+    font-weight: 760;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #475569;
+    font-size: 0.9rem;
+  }
+
+  .site-nav > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .site-nav > a:hover,
+  .site-nav > a:focus-visible {
+    color: #0f172a;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .site-header__inner {
+      width: min(100% - 32px, 1080px);
+      padding: 20px 0;
+      gap: 16px;
+    }
+
+    .site-nav {
+      gap: 12px;
+      font-size: 0.86rem;
+    }
+  }
+</style>

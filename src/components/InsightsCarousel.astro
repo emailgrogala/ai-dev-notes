@@ -1,0 +1,58 @@
+---
+interface InsightItem { text:string; title:string; href:string; }
+interface Props { items:InsightItem[]; lang:'pl'|'en'; }
+const { items, lang } = Astro.props;
+const label = lang === 'pl' ? 'Warto zapamiętać' : 'Worth remembering';
+const previousLabel = lang === 'pl' ? 'Poprzedni wniosek' : 'Previous insight';
+const nextLabel = lang === 'pl' ? 'Następny wniosek' : 'Next insight';
+---
+{items.length > 0 && (
+<section class="insights-carousel" data-insights-carousel>
+  <script type="application/json" data-insights-data set:html={JSON.stringify(items)}></script>
+  <div class="insights-carousel__top">
+    <p>{label}</p><span data-insights-counter>1 / {items.length}</span>
+  </div>
+  <blockquote data-insights-text aria-live="polite" aria-atomic="true">{items[0].text}</blockquote>
+  <div class="insights-carousel__footer">
+    <a data-insights-link href={items[0].href}><span data-insights-title>{items[0].title}</span><span>→</span></a>
+    <div class="insights-carousel__controls">
+      <button type="button" data-insights-prev aria-label={previousLabel}>←</button>
+      <button type="button" data-insights-next aria-label={nextLabel}>→</button>
+    </div>
+  </div>
+</section>
+)}
+<script>
+document.querySelectorAll('[data-insights-carousel]').forEach((carousel)=>{
+  if(!(carousel instanceof HTMLElement)) return;
+  const node=carousel.querySelector('[data-insights-data]');
+  if(!(node instanceof HTMLScriptElement)) return;
+  let items=[]; try{items=JSON.parse(node.textContent||'[]')}catch{return}
+  if(!Array.isArray(items)||!items.length)return;
+  let index=Math.floor(Math.random()*items.length);
+  const text=carousel.querySelector('[data-insights-text]');
+  const title=carousel.querySelector('[data-insights-title]');
+  const link=carousel.querySelector('[data-insights-link]');
+  const counter=carousel.querySelector('[data-insights-counter]');
+  const render=()=>{const item=items[index]; if(!item)return;
+    if(text)text.textContent=item.text;
+    if(title)title.textContent=item.title;
+    if(link instanceof HTMLAnchorElement)link.href=item.href;
+    if(counter)counter.textContent=`${index+1} / ${items.length}`;
+  };
+  carousel.querySelector('[data-insights-prev]')?.addEventListener('click',()=>{index=(index-1+items.length)%items.length;render()});
+  carousel.querySelector('[data-insights-next]')?.addEventListener('click',()=>{index=(index+1)%items.length;render()});
+  render();
+});
+</script>
+<style>
+.insights-carousel{margin:3rem 0 4.5rem;padding:1.25rem 0 1.35rem;border-top:1px solid #dbe3ec;border-bottom:1px solid #dbe3ec}
+.insights-carousel__top,.insights-carousel__footer{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.insights-carousel__top p{margin:0;color:#64748b;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.insights-carousel__top span{color:#94a3b8;font-size:.82rem}
+.insights-carousel blockquote{margin:1.2rem 0 1.35rem;max-width:850px;color:#1f2937;font-size:clamp(1.35rem,2.5vw,2rem);font-weight:650;line-height:1.35;letter-spacing:-.02em}
+.insights-carousel__footer a{display:inline-flex;align-items:center;gap:.55rem;color:#334155;font-size:.92rem;font-weight:650;text-decoration:none}
+.insights-carousel__controls{display:flex;gap:.45rem}
+.insights-carousel__controls button{width:2.2rem;height:2.2rem;border:1px solid #cbd5e1;border-radius:999px;background:transparent;color:#334155;cursor:pointer}
+.insights-carousel__controls button:hover{background:#f1f5f9}
+</style>

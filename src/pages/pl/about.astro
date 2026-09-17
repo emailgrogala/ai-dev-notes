@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+---
+
+<BaseLayout
+  title="O projekcie | AI Dev Notes"
+  description="Jak powstaje AI Dev Notes i jaką rolę w tym procesie odgrywają człowiek oraz narzędzia AI."
+  lang="pl"
+>
+  <div class="page">
+    <Header lang="pl" plHref="/pl/about/" enHref="/en/about/" />
+
+    <main class="about-shell">
+      <article class="about">
+        <header class="about-header">
+          <h1>Jak powstaje ten serwis</h1>
+          <p>
+            AI jest częścią procesu tworzenia tego serwisu — nie tylko jego tematem.
+          </p>
+        </header>
+
+        <section>
+          <h2>Współpraca człowieka z AI</h2>
+          <p>
+            Treści, kod, struktura serwisu, tłumaczenia i wybrane elementy interaktywne
+            powstają w różnym stopniu przy wsparciu narzędzi AI, przede wszystkim ChatGPT.
+          </p>
+          <p>
+            Człowiek określa cel, dostarcza kontekst, wybiera kierunek, ocenia propozycje,
+            weryfikuje rezultaty i zatwierdza ostateczną wersję publikowanych materiałów.
+          </p>
+        </section>
+
+        <section>
+          <h2>Nie tylko artykuły</h2>
+          <p>
+            AI Dev Notes jest rozwijany jako praktyczny serwis do nauki i eksperymentów.
+            Oprócz artykułów pojawiają się tu także krótkie „Warto zapamiętać”, interaktywne
+            przykłady oraz małe sandboxy pokazujące wybrane mechanizmy w praktyce.
+          </p>
+          <p>
+            Te same najważniejsze wnioski z artykułów mogą być prezentowane również na
+            stronie głównej, aby ułatwić odkrywanie treści.
+          </p>
+        </section>
+
+        <section>
+          <h2>Dlaczego tak</h2>
+          <p>
+            Celem projektu jest nie tylko opisywanie AI, ale także praktyczne sprawdzanie,
+            jak takie narzędzia mogą wspierać naukę, programowanie i tworzenie treści.
+          </p>
+          <p>
+            Dlatego część tematów jest rozwijana jako case study lub eksperyment:
+            od prostych wyjaśnień LLM po realne projekty tworzone z pomocą agentów AI.
+          </p>
+        </section>
+
+        <section>
+          <h2>Technologia i sposób rozwoju</h2>
+          <p>
+            Serwis jest rozwijany iteracyjnie i pozostaje możliwie prosty. Powstaje w Astro,
+            treści są przechowywane w Markdown, kod znajduje się w GitHub, a publikacja
+            odbywa się przez GitHub Pages.
+          </p>
+          <p>
+            Na tym etapie projekt nie wymaga backendu ani bazy danych. Interaktywność jest
+            dodawana tylko tam, gdzie rzeczywiście wnosi wartość.
+          </p>
+        </section>
+
+        <section>
+          <h2>Dwujęzyczność</h2>
+          <p>
+            Serwis jest dostępny po polsku i angielsku. Obie wersje są częścią tej samej
+            struktury, a artykuły są powiązane między językami.
+          </p>
+        </section>
+
+        <section>
+          <h2>Odpowiedzialność za publikację</h2>
+          <p>
+            Wsparcie AI nie oznacza automatycznej publikacji wygenerowanych wyników.
+            Ostateczny wybór treści, decyzje projektowe i akceptacja materiałów pozostają
+            po stronie człowieka.
+          </p>
+        </section>
+
+        <footer class="about-footer">
+          <strong>Learn → Build → Share</strong>
+        </footer>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-shell {
+    width: min(1080px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 68px 0 96px;
+  }
+
+  .about {
+    width: min(760px, 100%);
+    margin: 0 auto;
+  }
+
+  .about-header {
+    margin-bottom: 46px;
+  }
+
+  .about-header h1 {
+    margin: 0;
+    font-size: clamp(2.35rem, 4.8vw, 3.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .about-header p {
+    margin: 20px 0 0;
+    color: #475569;
+    font-size: 1.08rem;
+    line-height: 1.62;
+  }
+
+  .about section + section {
+    margin-top: 2.7rem;
+  }
+
+  .about h2 {
+    margin: 0 0 0.9rem;
+    font-size: 1.65rem;
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+  }
+
+  .about p {
+    margin: 0 0 1.25rem;
+    color: #1f2937;
+    font-size: 1.075rem;
+    line-height: 1.75;
+  }
+
+  .about-footer {
+    margin-top: 3.2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+    color: #1f2937;
+  }
+
+  @media (max-width: 640px) {
+    .about-shell {
+      width: min(100% - 32px, 1080px);
+      padding-top: 42px;
+      padding-bottom: 72px;
+    }
+
+    .about-header h1 {
+      font-size: clamp(2.15rem, 10vw, 2.9rem);
+    }
+
+    .about-header p,
+    .about p {
+      font-size: 1rem;
+    }
+
+    .about h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>

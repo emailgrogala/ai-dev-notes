@@ -1,0 +1,239 @@
+---
+---
+
+<script>
+  class NextTokenSandbox extends HTMLElement {
+    connectedCallback() {
+      const lang = this.getAttribute('lang') === 'en' ? 'en' : 'pl';
+      const t = lang === 'pl'
+        ? {
+            title: 'Sandbox: „Ala ma …”',
+            training: 'Liczność w danych treningowych',
+            temperature: 'Temperature',
+            base: 'Bazowy rozkład',
+            adjusted: 'Po zastosowaniu temperature',
+            top: 'Top token',
+            once: 'Generuj raz',
+            many: 'Generuj 100 razy',
+            single: 'Wylosowany wynik',
+            hundred: 'Wyniki 100 losowań',
+            note: 'To edukacyjne uproszczenie, a nie prawdziwy LLM. Pokazuje tylko: częstości → prawdopodobieństwa → temperature → losowanie tokenu.',
+            prefix: 'Ala ma',
+            tokens: ['kota', 'psa', 'królika'],
+            low: 'Niższa temperature wyostrza rozkład.',
+            high: 'Wyższa temperature spłaszcza rozkład.',
+            same: 'Przy temperature = 1 pozostają bazowe proporcje.',
+            times: 'razy'
+          }
+        : {
+            title: 'Sandbox: “Alice has a …”',
+            training: 'Counts in the training data',
+            temperature: 'Temperature',
+            base: 'Base distribution',
+            adjusted: 'After applying temperature',
+            top: 'Top token',
+            once: 'Generate once',
+            many: 'Generate 100 times',
+            single: 'Sampled result',
+            hundred: 'Results from 100 samples',
+            note: 'This is an educational simplification, not a real LLM. It only demonstrates: counts → probabilities → temperature → token sampling.',
+            prefix: 'Alice has a',
+            tokens: ['cat', 'dog', 'rabbit'],
+            low: 'Lower temperature sharpens the distribution.',
+            high: 'Higher temperature flattens the distribution.',
+            same: 'At temperature = 1 the base proportions are preserved.',
+            times: 'times'
+          };
+
+      let counts = [2, 1, 0];
+      let temperature = 1;
+
+      this.innerHTML = `
+        <section class="nts">
+          <h3>${t.title}</h3>
+          <div class="nts-grid">
+            <div>
+              <h4>${t.training}</h4>
+              ${t.tokens.map((token, i) => `
+                <label class="nts-row">
+                  <span>${token}</span>
+                  <input type="number" min="0" max="10" step="1" value="${counts[i]}" data-count="${i}">
+                </label>
+              `).join('')}
+
+              <div class="nts-temp">
+                <div class="nts-temp__header">
+                  <label for="nts-temperature"><strong>${t.temperature}</strong></label>
+                  <output for="nts-temperature" data-temp-out>1.0</output>
+                </div>
+                <input id="nts-temperature" type="range" min="0.1" max="2" step="0.1" value="1" data-temp>
+              </div>
+              <p class="nts-note" data-temp-note></p>
+            </div>
+
+            <div>
+              <div class="nts-panel">
+                <h4>${t.base}</h4>
+                <div data-base></div>
+              </div>
+              <div class="nts-panel">
+                <h4>${t.adjusted}</h4>
+                <div data-adjusted></div>
+                <p class="nts-top" data-top></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="nts-actions">
+            <button type="button" data-once>${t.once}</button>
+            <button type="button" class="secondary" data-many>${t.many}</button>
+          </div>
+
+          <div class="nts-samples">
+            <div><h4>${t.single}</h4><div data-single>—</div></div>
+            <div><h4>${t.hundred}</h4><div data-hundred>—</div></div>
+          </div>
+
+          <p class="nts-warning">${t.note}</p>
+        </section>
+      `;
+
+      const baseDist = () => {
+        const total = counts.reduce((a, b) => a + b, 0);
+        return total > 0 ? counts.map(c => c / total) : [0,0,0];
+      };
+
+      const adjustedDist = () => {
+        const base = baseDist();
+        const vals = base.map(p => p > 0 ? Math.pow(p, 1 / temperature) : 0);
+        const sum = vals.reduce((a,b) => a+b, 0);
+        return sum > 0 ? vals.map(v => v / sum) : [0,0,0];
+      };
+
+      const getElement = <T extends Element>(selector: string) => {
+        const element = this.querySelector<T>(selector);
+        if (!element) throw new Error(`Missing sandbox element: ${selector}`);
+        return element;
+      };
+
+      const baseElement = getElement<HTMLElement>('[data-base]');
+      const adjustedElement = getElement<HTMLElement>('[data-adjusted]');
+      const temperatureOutput = getElement<HTMLOutputElement>('[data-temp-out]');
+      const topElement = getElement<HTMLElement>('[data-top]');
+      const temperatureNote = getElement<HTMLElement>('[data-temp-note]');
+      const singleResult = getElement<HTMLElement>('[data-single]');
+      const hundredResults = getElement<HTMLElement>('[data-hundred]');
+      const temperatureInput = getElement<HTMLInputElement>('[data-temp]');
+      const onceButton = getElement<HTMLButtonElement>('[data-once]');
+      const manyButton = getElement<HTMLButtonElement>('[data-many]');
+
+      const pct = (p: number) => `${(p * 100).toFixed(1)}%`;
+
+      const distHtml = (dist: number[]) => t.tokens.map((token, i) => `
+        <div class="nts-prob">
+          <div><span>${token}</span><strong>${pct(dist[i])}</strong></div>
+          <div class="nts-track"><span style="width:${dist[i]*100}%"></span></div>
+        </div>
+      `).join('');
+
+      const sample = (dist: number[]) => {
+        const r = Math.random();
+        let sum = 0;
+        for (let i = 0; i < dist.length; i++) {
+          sum += dist[i];
+          if (r <= sum) return i;
+        }
+        return dist.length - 1;
+      };
+
+      const update = () => {
+        const base = baseDist();
+        const adj = adjustedDist();
+        baseElement.innerHTML = distHtml(base);
+        adjustedElement.innerHTML = distHtml(adj);
+        temperatureOutput.textContent = temperature.toFixed(1);
+
+        const topIndex = adj.indexOf(Math.max(...adj));
+        topElement.textContent =
+          Math.max(...adj) > 0 ? `${t.top}: ${t.tokens[topIndex]} (${pct(adj[topIndex])})` : '';
+
+        temperatureNote.textContent =
+          temperature < 1 ? t.low : temperature > 1 ? t.high : t.same;
+
+        singleResult.textContent = '—';
+        hundredResults.textContent = '—';
+      };
+
+      this.querySelectorAll<HTMLInputElement>('[data-count]').forEach(input => {
+        input.addEventListener('input', e => {
+          const target = e.currentTarget as HTMLInputElement;
+          const i = Number(target.dataset.count);
+          counts[i] = Math.max(0, Math.min(10, Number(target.value) || 0));
+          update();
+        });
+      });
+
+      temperatureInput.addEventListener('input', e => {
+        const target = e.currentTarget as HTMLInputElement;
+        temperature = Number(target.value);
+        update();
+      });
+
+      onceButton.addEventListener('click', () => {
+        const dist = adjustedDist();
+        if (dist.reduce((a,b)=>a+b,0) === 0) return;
+        const i = sample(dist);
+        singleResult.innerHTML =
+          `<strong>${t.prefix} ${t.tokens[i]}</strong><br><small>${pct(dist[i])}</small>`;
+      });
+
+      manyButton.addEventListener('click', () => {
+        const dist = adjustedDist();
+        if (dist.reduce((a,b)=>a+b,0) === 0) return;
+        const totals = [0,0,0];
+        for (let n=0;n<100;n++) totals[sample(dist)]++;
+        hundredResults.innerHTML =
+          t.tokens.map((token,i)=>`<div class="nts-count"><span>${token}</span><strong>${totals[i]} ${t.times}</strong></div>`).join('');
+      });
+
+      update();
+    }
+  }
+
+  if (!customElements.get('next-token-sandbox')) {
+    customElements.define('next-token-sandbox', NextTokenSandbox);
+  }
+</script>
+
+<style is:global>
+  next-token-sandbox { display:block; margin:2rem 0 3rem; }
+  .nts { padding:24px; border:1px solid #dbe3ec; border-radius:14px; background:#f8fafc; }
+  .nts h3 { margin:0 0 20px; font-size:1.35rem; }
+  .nts h4 { margin:0 0 10px; font-size:.95rem; }
+  .nts-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:24px; }
+  .nts-row { display:grid; grid-template-columns:1fr 72px; gap:12px; align-items:center; margin-bottom:8px; font-size:.92rem; }
+  .nts-row input { width:100%; padding:7px 8px; border:1px solid #cbd5e1; border-radius:7px; background:#fff; }
+  .nts-temp { display:block; margin-top:20px; }
+  .nts-temp__header { display:flex; justify-content:space-between; margin-bottom:8px; font-size:.9rem; }
+  .nts-temp input { width:100%; }
+  .nts-note { margin:8px 0 0 !important; font-size:.82rem; color:#64748b; }
+  .nts-panel { padding:15px; border-radius:10px; background:#fff; }
+  .nts-panel + .nts-panel { margin-top:14px; }
+  .nts-prob + .nts-prob { margin-top:9px; }
+  .nts-prob > div:first-child { display:flex; justify-content:space-between; gap:12px; font-size:.86rem; }
+  .nts-track { height:7px; margin-top:5px; border-radius:999px; overflow:hidden; background:#e2e8f0; }
+  .nts-track span { display:block; height:100%; background:#64748b; border-radius:inherit; }
+  .nts-top { margin:12px 0 0 !important; font-size:.86rem; font-weight:700; }
+  .nts-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+  .nts-actions button { padding:9px 13px; border:1px solid #111827; border-radius:8px; background:#111827; color:#fff; font-weight:650; cursor:pointer; }
+  .nts-actions button.secondary { background:#fff; color:#111827; }
+  .nts-samples { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
+  .nts-samples > div { padding:14px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
+  .nts-count { display:flex; justify-content:space-between; gap:12px; font-size:.86rem; }
+  .nts-count + .nts-count { margin-top:5px; }
+  .nts-warning { margin:18px 0 0 !important; padding-top:15px; border-top:1px solid #dbe3ec; color:#64748b; font-size:.82rem; line-height:1.55; }
+  @media (max-width:720px) {
+    .nts-grid, .nts-samples { grid-template-columns:1fr; }
+    .nts { padding:18px; }
+  }
+</style>

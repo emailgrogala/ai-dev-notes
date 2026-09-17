@@ -1,0 +1,180 @@
+---
+---
+
+<div class="reading-progress" aria-hidden="true">
+  <div class="reading-progress__bar" data-reading-progress></div>
+</div>
+
+<script>
+  const article = document.querySelector('.article-content');
+  const progressBar = document.querySelector('[data-reading-progress]');
+
+  if (article instanceof HTMLElement && progressBar instanceof HTMLElement) {
+    const updateProgress = () => {
+      const rect = article.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const articleTop = window.scrollY + rect.top;
+      const articleHeight = article.offsetHeight;
+
+      const start = articleTop;
+      const end = articleTop + articleHeight - viewportHeight;
+      const current = window.scrollY;
+
+      let progress = 0;
+
+      if (end <= start) {
+        progress = current >= start ? 1 : 0;
+      } else {
+        progress = (current - start) / (end - start);
+      }
+
+      progress = Math.min(1, Math.max(0, progress));
+      progressBar.style.transform = `scaleX(${progress})`;
+    };
+
+    let progressRaf = 0;
+    const requestProgressUpdate = () => {
+      cancelAnimationFrame(progressRaf);
+      progressRaf = requestAnimationFrame(updateProgress);
+    };
+
+    window.addEventListener('scroll', requestProgressUpdate, { passive: true });
+    window.addEventListener('resize', requestProgressUpdate);
+    updateProgress();
+
+    const children = Array.from(article.children);
+    const sections: HTMLElement[][] = [];
+    let currentSection: HTMLElement[] | null = null;
+
+    for (const child of children) {
+      if (!(child instanceof HTMLElement)) continue;
+
+      if (child.tagName === 'H2') {
+        currentSection = [child];
+        sections.push(currentSection);
+      } else if (currentSection) {
+        currentSection.push(child);
+      }
+    }
+
+    const wrappedSections = sections.map((nodes) => {
+      const wrapper = document.createElement('section');
+      wrapper.className = 'reading-section';
+
+      const first = nodes[0];
+      if (!first?.parentNode) return null;
+
+      first.parentNode.insertBefore(wrapper, first);
+
+      for (const node of nodes) {
+        wrapper.appendChild(node);
+      }
+
+      return wrapper;
+    }).filter((section): section is HTMLElement => section !== null);
+
+    let activeSection: HTMLElement | null = null;
+
+    const setActive = (section: HTMLElement | null) => {
+      if (activeSection === section) return;
+
+      activeSection?.classList.remove('reading-section-active');
+      activeSection = section instanceof HTMLElement ? section : null;
+      activeSection?.classList.add('reading-section-active');
+    };
+
+    const findActiveSection = () => {
+      const readingLine = window.innerHeight * 0.46;
+      let best: HTMLElement | null = null;
+      let bestDistance = Number.POSITIVE_INFINITY;
+
+      for (const section of wrappedSections) {
+        const rect = section.getBoundingClientRect();
+
+        if (rect.bottom < 80 || rect.top > window.innerHeight - 40) {
+          continue;
+        }
+
+        const anchor = Math.max(rect.top, Math.min(readingLine, rect.bottom));
+        const distance = Math.abs(anchor - readingLine);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = section;
+        }
+      }
+
+      setActive(best);
+    };
+
+    let focusRaf = 0;
+    const requestFocusUpdate = () => {
+      cancelAnimationFrame(focusRaf);
+      focusRaf = requestAnimationFrame(findActiveSection);
+    };
+
+    window.addEventListener('scroll', requestFocusUpdate, { passive: true });
+    window.addEventListener('resize', requestFocusUpdate);
+    findActiveSection();
+  }
+</script>
+
+<style is:global>
+  .reading-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    height: 3px;
+    pointer-events: none;
+  }
+
+  .reading-progress__bar {
+    width: 100%;
+    height: 100%;
+    background: #334155;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 80ms linear;
+  }
+
+  .reading-section {
+    margin: 0 -20px;
+    padding: 1px 20px 8px;
+    border-left: 3px solid transparent;
+    border-radius: 8px;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .reading-section-active {
+    background: #f1f5f9;
+    border-left-color: #94a3b8;
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
+  }
+
+  .reading-section-active > h2 {
+    color: #0f172a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress__bar,
+    .reading-section {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .reading-progress {
+      height: 2px;
+    }
+
+    .reading-section {
+      margin: 0 -10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-left-width: 2px;
+    }
+  }
+</style>

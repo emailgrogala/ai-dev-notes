@@ -1,0 +1,19 @@
+---
+interface Props {
+  insights: string[];
+  lang: 'pl' | 'en';
+}
+const { insights, lang } = Astro.props;
+const title = lang === 'pl' ? 'Warto zapamiętać' : 'Key takeaways';
+---
+{insights?.length > 0 && (
+  <aside class="article-insights">
+    <p class="article-insights__label">{title}</p>
+    <ul>{insights.map((insight) => <li>{insight}</li>)}</ul>
+  </aside>
+)}
+<style>
+.article-insights{margin:0 0 3rem;padding:1.15rem 1.25rem 1.2rem;border-left:3px solid #94a3b8;border-radius:0 10px 10px 0;background:#f8fafc}
+.article-insights__label{margin:0 0 .75rem;color:#475569;font-size:.76rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.article-insights ul{margin:0;padding-left:1.2rem}.article-insights li{line-height:1.55}.article-insights li+li{margin-top:.5rem}
+</style>

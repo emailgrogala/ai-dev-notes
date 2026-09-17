@@ -1,11 +1,73 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="AI Dev Notes"
+  description="Practical notes on AI, software development and tools."
+  lang="en"
+>
+  <main class="landing">
+    <div>
+      <p class="eyebrow">Learn · Build · Share</p>
+
+      <h1>AI Dev Notes</h1>
+
+      <p class="lead">
+        Practical notes on AI, software development and tools.
+      </p>
+
+      <div class="language-choice">
+        <a class="button" href="/pl/">Polski</a>
+        <a class="button button-secondary" href="/en/">English</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .landing {
+    width: min(900px, calc(100% - 40px));
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    max-width: 850px;
+    margin: 0;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+  }
+
+  .lead {
+    max-width: 680px;
+    margin-top: 28px;
+    color: #475569;
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .language-choice {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 12px 18px;
+    border: 1px solid #111827;
+    border-radius: 8px;
+    background: #111827;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .button-secondary {
+    background: transparent;
+    color: #111827;
+  }
+</style>

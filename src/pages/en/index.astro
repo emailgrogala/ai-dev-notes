@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import InsightsCarousel from '../../components/InsightsCarousel.astro';
+
+const articles=(await getCollection('articles',({data})=>data.lang==='en'&&!data.draft))
+  .sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+
+const insights=articles.flatMap(article=>article.data.insights.map(text=>({
+  text,
+  title:article.data.title,
+  href:`/en/articles/${article.data.translationKey}/`
+})));
+---
+<BaseLayout title="AI Dev Notes" description="Practical notes from learning, experimenting, and building software with AI." lang="en">
+  <div class="page">
+    <Header lang="en" />
+    <main class="home">
+      <section class="hero">
+        <p class="eyebrow">LEARN · BUILD · SHARE</p>
+        <h1>AI, programming<br />and tools</h1>
+        <p class="hero-copy">Practical notes from learning, experimenting, and building software with AI.</p>
+      </section>
+      <InsightsCarousel items={insights} lang="en" />
+      <section class="articles-section">
+        <h2>Latest articles</h2>
+        <div class="articles-list">
+          {articles.map(article=>(
+            <ArticleCard
+              title={article.data.title}
+              description={article.data.description}
+              date={article.data.date}
+              href={`/en/articles/${article.data.translationKey}/`}
+              lang="en"
+            />
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>
+<style>
+.home{width:min(1080px,calc(100% - 40px));margin:0 auto;padding:64px 0 96px}
+.hero{width:min(900px,calc(100% - 40px));max-width:850px;margin:0 auto;padding:120px 0}.hero h1{margin:22px 0 0;max-width:820px;font-size:clamp(3rem,6vw,5rem);line-height:.98;letter-spacing:-.05em}
+.hero-copy{max-width:760px;margin:26px 0 0;color:#475569;font-size:1.2rem;line-height:1.65}
+.articles-section h2{margin:0 0 1rem;padding-bottom:.8rem;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:640px){.home{width:min(100% - 32px,1080px);padding-top:42px}.hero{width:calc(100% - 32px)}}
+</style>

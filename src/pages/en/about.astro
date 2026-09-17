@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+---
+
+<BaseLayout
+  title="About | AI Dev Notes"
+  description="How AI Dev Notes is created and how humans and AI tools contribute to the process."
+  lang="en"
+>
+  <div class="page">
+    <Header lang="en" plHref="/pl/about/" enHref="/en/about/" />
+
+    <main class="about-shell">
+      <article class="about">
+        <header class="about-header">
+          <h1>How this site is built</h1>
+          <p>
+            AI is part of the process of creating this site — not only its subject.
+          </p>
+        </header>
+
+        <section>
+          <h2>Human–AI collaboration</h2>
+          <p>
+            Content, code, site structure, translations, and selected interactive elements
+            are created to varying degrees with support from AI tools, primarily ChatGPT.
+          </p>
+          <p>
+            The human defines the goal, provides context, chooses the direction, evaluates
+            proposals, verifies results, and approves the final published version.
+          </p>
+        </section>
+
+        <section>
+          <h2>More than articles</h2>
+          <p>
+            AI Dev Notes is developed as a practical place for learning and experimentation.
+            Alongside articles, it includes short key takeaways, interactive examples, and
+            small sandboxes that demonstrate selected mechanisms in practice.
+          </p>
+          <p>
+            The same key ideas can also appear on the home page to make useful content easier
+            to discover.
+          </p>
+        </section>
+
+        <section>
+          <h2>Why this approach</h2>
+          <p>
+            The goal is not only to describe AI, but also to test how these tools can support
+            learning, programming, and content creation in practice.
+          </p>
+          <p>
+            Some topics are therefore developed as case studies or experiments — from simple
+            explanations of LLMs to real projects built with AI agents.
+          </p>
+        </section>
+
+        <section>
+          <h2>Technology and development</h2>
+          <p>
+            The site is developed iteratively and kept intentionally simple. It uses Astro,
+            stores content in Markdown, keeps code on GitHub, and is published through GitHub Pages.
+          </p>
+          <p>
+            At this stage, the project does not require a backend or database. Interactivity is
+            added only where it provides clear value.
+          </p>
+        </section>
+
+        <section>
+          <h2>Bilingual by design</h2>
+          <p>
+            The site is available in Polish and English. Both languages are part of the same
+            structure, with related articles linked across language versions.
+          </p>
+        </section>
+
+        <section>
+          <h2>Responsibility for publication</h2>
+          <p>
+            AI assistance does not mean automatically publishing generated results. Final
+            content choices, design decisions, and approval remain human responsibilities.
+          </p>
+        </section>
+
+        <footer class="about-footer">
+          <strong>Learn → Build → Share</strong>
+        </footer>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-shell {
+    width: min(1080px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 68px 0 96px;
+  }
+
+  .about {
+    width: min(760px, 100%);
+    margin: 0 auto;
+  }
+
+  .about-header {
+    margin-bottom: 46px;
+  }
+
+  .about-header h1 {
+    margin: 0;
+    font-size: clamp(2.35rem, 4.8vw, 3.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .about-header p {
+    margin: 20px 0 0;
+    color: #475569;
+    font-size: 1.08rem;
+    line-height: 1.62;
+  }
+
+  .about section + section {
+    margin-top: 2.7rem;
+  }
+
+  .about h2 {
+    margin: 0 0 0.9rem;
+    font-size: 1.65rem;
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+  }
+
+  .about p {
+    margin: 0 0 1.25rem;
+    color: #1f2937;
+    font-size: 1.075rem;
+    line-height: 1.75;
+  }
+
+  .about-footer {
+    margin-top: 3.2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+    color: #1f2937;
+  }
+
+  @media (max-width: 640px) {
+    .about-shell {
+      width: min(100% - 32px, 1080px);
+      padding-top: 42px;
+      padding-bottom: 72px;
+    }
+
+    .about-header h1 {
+      font-size: clamp(2.15rem, 10vw, 2.9rem);
+    }
+
+    .about-header p,
+    .about p {
+      font-size: 1rem;
+    }
+
+    .about h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>

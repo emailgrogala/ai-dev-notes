@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  href: string;
+  lang: 'pl' | 'en';
+}
+
+const { title, description, date, href, lang } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat(lang === 'pl' ? 'pl-PL' : 'en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(date);
+---
+
+<article class="article-card">
+  <a href={href} class="article-card__link">
+    <p class="article-card__date">{formattedDate}</p>
+    <h2>{title}</h2>
+    <p>{description}</p>
+  </a>
+</article>
+
+<style>
+  .article-card {
+    border-top: 1px solid #e2e8f0;
+    padding: 26px 0;
+  }
+
+  .article-card__link {
+    display: block;
+  }
+
+  .article-card__date {
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.65;
+    color: #475569;
+  }
+
+  .article-card__link:hover h2,
+  .article-card__link:focus-visible h2 {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .article-card__link:focus-visible {
+    outline: 2px solid #111827;
+    outline-offset: 6px;
+    border-radius: 4px;
+  }
+</style>

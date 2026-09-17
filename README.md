@@ -1,46 +1,46 @@
-# Astro Starter Kit: Basics
+# AI Dev Notes
 
-```sh
-npm create astro@latest -- --template basics
+AI Dev Notes is a bilingual educational site about AI, programming, and practical experiments with AI-assisted development.
+
+**Learn → Build → Share**
+
+## Stack
+- Astro
+- TypeScript
+- Markdown / Astro Content Collections
+- CSS
+- GitHub / GitHub Actions / GitHub Pages
+
+The project is intentionally lightweight: no backend, database, or CMS unless a concrete need appears.
+
+## Languages
+- Polish: `/pl/...`
+- English: `/en/...`
+
+Articles are paired through `translationKey`.
+
+## Main features
+- bilingual articles,
+- language switching,
+- `Warto zapamiętać / Key takeaways`,
+- insights carousel,
+- reading progress / section focus,
+- selected interactive examples,
+- AI-assisted-content note,
+- `O projekcie / About`.
+
+## Local development
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Before review or merge, run the checks that exist in `package.json`.
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Agent instructions
+Read in this order:
+1. `PROJECT.md`
+2. `AGENTS.md`
+3. `REVIEW.md` for review tasks
