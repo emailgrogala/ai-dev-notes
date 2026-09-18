@@ -24,7 +24,7 @@ const insights=articles.flatMap(article=>article.data.insights.map(text=>({
         <p class="hero-copy">Practical notes from learning, experimenting, and building software with AI.</p>
       </section>
       <InsightsCarousel items={insights} lang="en" />
-      <section class="articles-section">
+      <section class="articles-section" id="articles">
         <h2>Latest articles</h2>
         <div class="articles-list">
           {articles.map(article=>(

@@ -138,24 +138,15 @@
   }
 
   .reading-section {
-    margin: 0 -20px;
-    padding: 1px 20px 8px;
-    border-left: 3px solid transparent;
-    border-radius: 8px;
-    transition:
-      background-color 180ms ease,
-      border-color 180ms ease,
-      box-shadow 180ms ease;
+    min-width: 0;
+    margin: 0 0 0 -18px;
+    padding: 1px 0 8px 16px;
+    border-left: 2px solid transparent;
+    transition: border-color 180ms ease;
   }
 
   .reading-section-active {
-    background: #f1f5f9;
     border-left-color: #94a3b8;
-    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
-  }
-
-  .reading-section-active > h2 {
-    color: #0f172a;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -171,9 +162,8 @@
     }
 
     .reading-section {
-      margin: 0 -10px;
-      padding-left: 10px;
-      padding-right: 10px;
+      margin-left: -10px;
+      padding-left: 8px;
       border-left-width: 2px;
     }
   }

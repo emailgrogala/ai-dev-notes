@@ -2,7 +2,7 @@
 interface InsightItem { text:string; title:string; href:string; }
 interface Props { items:InsightItem[]; lang:'pl'|'en'; }
 const { items, lang } = Astro.props;
-const label = lang === 'pl' ? 'Warto zapamiętać' : 'Worth remembering';
+const label = lang === 'pl' ? 'Warto zapamiętać' : 'Key takeaways';
 const previousLabel = lang === 'pl' ? 'Poprzedni wniosek' : 'Previous insight';
 const nextLabel = lang === 'pl' ? 'Następny wniosek' : 'Next insight';
 ---
@@ -53,6 +53,6 @@ document.querySelectorAll('[data-insights-carousel]').forEach((carousel)=>{
 .insights-carousel blockquote{margin:1.2rem 0 1.35rem;max-width:850px;color:#1f2937;font-size:clamp(1.35rem,2.5vw,2rem);font-weight:650;line-height:1.35;letter-spacing:-.02em}
 .insights-carousel__footer a{display:inline-flex;align-items:center;gap:.55rem;color:#334155;font-size:.92rem;font-weight:650;text-decoration:none}
 .insights-carousel__controls{display:flex;gap:.45rem}
-.insights-carousel__controls button{width:2.2rem;height:2.2rem;border:1px solid #cbd5e1;border-radius:999px;background:transparent;color:#334155;cursor:pointer}
+.insights-carousel__controls button{width:2.75rem;height:2.75rem;border:1px solid #cbd5e1;border-radius:999px;background:transparent;color:#334155;cursor:pointer}
 .insights-carousel__controls button:hover{background:#f1f5f9}
 </style>

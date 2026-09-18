@@ -24,7 +24,7 @@ const insights=articles.flatMap(article=>article.data.insights.map(text=>({
         <p class="hero-copy">Praktyczne notatki z nauki, eksperymentów i tworzenia oprogramowania z wykorzystaniem AI.</p>
       </section>
       <InsightsCarousel items={insights} lang="pl" />
-      <section class="articles-section">
+      <section class="articles-section" id="articles">
         <h2>Najnowsze artykuły</h2>
         <div class="articles-list">
           {articles.map(article=>(

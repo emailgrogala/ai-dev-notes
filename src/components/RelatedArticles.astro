@@ -1,0 +1,118 @@
+---
+interface RelatedArticle {
+  title: string;
+  href: string;
+}
+
+interface Props {
+  articles: RelatedArticle[];
+  lang: 'pl' | 'en';
+}
+
+const { articles, lang } = Astro.props;
+const title = lang === 'pl' ? 'Czytaj dalej' : 'Read next';
+const allArticlesLabel = lang === 'pl' ? 'Wszystkie artykuły' : 'All articles';
+const allArticlesHref = `/${lang}/#articles`;
+---
+
+{articles.length > 0 && (
+  <aside class="related-articles" aria-labelledby="related-articles-title">
+    <div class="related-articles__header">
+      <h2 id="related-articles-title">{title}</h2>
+      <a href={allArticlesHref}>{allArticlesLabel}</a>
+    </div>
+
+    <ul>
+      {articles.map((article) => (
+        <li>
+          <a href={article.href}>
+            <span>{article.title}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+
+<style>
+  .related-articles {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .related-articles__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .related-articles h2 {
+    margin: 0;
+    color: #475569;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .related-articles__header > a {
+    color: #475569;
+    font-size: 0.88rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .related-articles ul {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-articles li {
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .related-articles li:last-child {
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .related-articles li > a {
+    min-height: 52px;
+    padding: 13px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: #1f2937;
+    font-weight: 650;
+    line-height: 1.4;
+  }
+
+  .related-articles a:hover,
+  .related-articles a:focus-visible {
+    color: #0f172a;
+  }
+
+  .related-articles li > a:hover span:first-child,
+  .related-articles li > a:focus-visible span:first-child {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 420px) {
+    .related-articles__header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .related-articles__header > a {
+      min-height: 44px;
+      margin-block: -8px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+</style>

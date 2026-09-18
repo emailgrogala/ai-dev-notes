@@ -35,12 +35,18 @@ const navLabel = lang === 'pl' ? 'Wybór języka' : 'Language selection';
 <style>
   .language-switch {
     display: flex;
-    gap: 8px;
+    gap: 2px;
     align-items: center;
     font-size: 0.9rem;
   }
 
   .language-switch a {
+    min-width: 32px;
+    min-height: 44px;
+    margin-block: -12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: #64748b;
   }
 
