@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
+import { withBase } from '../../utils/paths';
+
+const plHref = withBase('pl/about/');
+const enHref = withBase('en/about/');
 ---
 
 <BaseLayout
   title="About | AI Dev Notes"
   description="How AI Dev Notes is created and how humans and AI tools contribute to the process."
   lang="en"
+  plHref={plHref}
+  enHref={enHref}
 >
   <div class="page">
-    <Header lang="en" plHref="/pl/about/" enHref="/en/about/" />
+    <Header lang="en" plHref={plHref} enHref={enHref} />
 
     <main class="about-shell">
       <article class="about">

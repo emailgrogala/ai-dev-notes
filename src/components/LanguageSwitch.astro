@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../utils/paths';
+
 interface Props {
   lang: 'pl' | 'en';
   plHref?: string;
@@ -7,8 +9,8 @@ interface Props {
 
 const {
   lang,
-  plHref = '/pl/',
-  enHref = '/en/'
+  plHref = withBase('pl/'),
+  enHref = withBase('en/')
 } = Astro.props;
 
 const navLabel = lang === 'pl' ? 'Wybór języka' : 'Language selection';

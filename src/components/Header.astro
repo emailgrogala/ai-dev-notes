@@ -1,5 +1,6 @@
 ---
 import LanguageSwitch from './LanguageSwitch.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   lang: 'pl' | 'en';
@@ -9,22 +10,23 @@ interface Props {
 
 const {
   lang,
-  plHref = '/pl/',
-  enHref = '/en/',
+  plHref = withBase('pl/'),
+  enHref = withBase('en/'),
 } = Astro.props;
 
 const aboutLabel = lang === 'pl' ? 'O projekcie' : 'About';
-const aboutHref = `/${lang}/about/`;
+const aboutHref = withBase(`${lang}/about/`);
 
 const glossaryLabel = lang === 'pl' ? 'Słownik' : 'Glossary';
-const glossaryHref = `/${lang}/glossary/`;
+const glossaryHref = withBase(`${lang}/glossary/`);
+const homeHref = withBase(`${lang}/`);
 ---
 
 <header class="site-header">
   <div class="site-header__inner">
     <a
       class="brand"
-      href={`/${lang}/`}
+      href={homeHref}
       aria-label="AI Dev Notes"
     >
       AI Dev Notes

@@ -1,12 +1,41 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Glossary from "../../components/Glossary.astro";
+import Header from "../../components/Header.astro";
+import { withBase } from "../../utils/paths";
+
+const plHref = withBase("pl/glossary/");
+const enHref = withBase("en/glossary/");
 ---
 
 <BaseLayout
   lang="pl"
   title="Słownik pojęć — AI Dev Notes"
   description="Krótki słownik pojęć używanych w AI Dev Notes: LLM, RAG, trening modeli, fine-tuning, MCP, agent, token i inne."
+  plHref={plHref}
+  enHref={enHref}
 >
-  <Glossary lang="pl" />
+  <div class="page">
+    <Header lang="pl" plHref={plHref} enHref={enHref} />
+
+    <main class="glossary-shell">
+      <Glossary lang="pl" />
+    </main>
+  </div>
 </BaseLayout>
+
+<style>
+  .glossary-shell {
+    width: min(1080px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 68px 0 96px;
+  }
+
+  @media (max-width: 640px) {
+    .glossary-shell {
+      width: min(100% - 32px, 1080px);
+      padding-top: 42px;
+      padding-bottom: 72px;
+    }
+  }
+</style>

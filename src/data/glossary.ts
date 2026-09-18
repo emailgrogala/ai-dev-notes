@@ -1,3 +1,5 @@
+import { withBase } from "../utils/paths";
+
 export type GlossaryLang = "pl" | "en";
 
 export type GlossaryEntry = {
@@ -263,5 +265,5 @@ export const glossaryEntries: GlossaryEntry[] = [
 ];
 
 export function articleHref(lang: GlossaryLang, slug: string) {
-  return `/${lang}/articles/${slug}/`;
+  return withBase(`${lang}/articles/${slug}/`);
 }

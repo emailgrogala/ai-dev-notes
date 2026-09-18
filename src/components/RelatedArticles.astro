@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../utils/paths';
+
 interface RelatedArticle {
   title: string;
   href: string;
@@ -12,7 +14,7 @@ interface Props {
 const { articles, lang } = Astro.props;
 const title = lang === 'pl' ? 'Czytaj dalej' : 'Read next';
 const allArticlesLabel = lang === 'pl' ? 'Wszystkie artykuły' : 'All articles';
-const allArticlesHref = `/${lang}/#articles`;
+const allArticlesHref = withBase(`${lang}/#articles`);
 ---
 
 {articles.length > 0 && (

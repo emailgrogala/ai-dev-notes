@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import InsightsCarousel from '../../components/InsightsCarousel.astro';
+import { withBase } from '../../utils/paths';
 
 const articles=(await getCollection('articles',({data})=>data.lang==='pl'&&!data.draft))
   .sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
@@ -11,10 +12,16 @@ const articles=(await getCollection('articles',({data})=>data.lang==='pl'&&!data
 const insights=articles.flatMap(article=>article.data.insights.map(text=>({
   text,
   title:article.data.title,
-  href:`/pl/articles/${article.data.translationKey}/`
+  href:withBase(`pl/articles/${article.data.translationKey}/`)
 })));
 ---
-<BaseLayout title="AI Dev Notes" description="Praktyczne notatki z nauki, eksperymentów i tworzenia oprogramowania z wykorzystaniem AI." lang="pl">
+<BaseLayout
+  title="AI Dev Notes"
+  description="Praktyczne notatki z nauki, eksperymentów i tworzenia oprogramowania z wykorzystaniem AI."
+  lang="pl"
+  plHref={withBase('pl/')}
+  enHref={withBase('en/')}
+>
   <div class="page">
     <Header lang="pl" />
     <main class="home">
@@ -32,7 +39,7 @@ const insights=articles.flatMap(article=>article.data.insights.map(text=>({
               title={article.data.title}
               description={article.data.description}
               date={article.data.date}
-              href={`/pl/articles/${article.data.translationKey}/`}
+              href={withBase(`pl/articles/${article.data.translationKey}/`)}
               lang="pl"
             />
           ))}

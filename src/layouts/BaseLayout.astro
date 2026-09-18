@@ -1,17 +1,28 @@
 ---
 import '../styles/global.css';
+import { withBase } from '../utils/paths';
 
 interface Props {
   title: string;
   description?: string;
   lang?: 'pl' | 'en';
+  plHref?: string;
+  enHref?: string;
 }
 
 const {
   title,
   description = 'AI Dev Notes',
-  lang = 'pl'
+  lang = 'pl',
+  plHref,
+  enHref,
 } = Astro.props;
+
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
+const plUrl = plHref && Astro.site ? new URL(plHref, Astro.site).href : undefined;
+const enUrl = enHref && Astro.site ? new URL(enHref, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -20,6 +31,11 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {plUrl && <link rel="alternate" hreflang="pl" href={plUrl} />}
+    {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <link rel="icon" type="image/x-icon" href={withBase('favicon.ico')} />
     <title>{title}</title>
   </head>
 

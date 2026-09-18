@@ -9,6 +9,7 @@ import ReadingAids from '../components/ReadingAids.astro';
 import NextTokenSandbox from '../components/NextTokenSandbox.astro';
 import ArticleInsights from '../components/ArticleInsights.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import { withBase } from '../utils/paths';
 
 interface Props {
   title: string;
@@ -43,19 +44,33 @@ const formattedDate = new Intl.DateTimeFormat(
   }
 ).format(date);
 
-const plHref = `/pl/articles/${translationKey}/`;
-const enHref = `/en/articles/${translationKey}/`;
 const enlargeLabel = lang === 'pl' ? 'Powiększ' : 'Enlarge';
 const currentTags = new Set(tags);
 const currentDate = date.valueOf();
 
-const relatedArticles = (await getCollection(
+const publishedArticles = await getCollection(
   'articles',
-  ({ data }) => data.lang === lang && !data.draft && data.translationKey !== translationKey
-))
+  ({ data }) => !data.draft
+);
+const translationLanguages = new Set(
+  publishedArticles
+    .filter((article) => article.data.translationKey === translationKey)
+    .map((article) => article.data.lang)
+);
+const plAlternateHref = translationLanguages.has('pl')
+  ? withBase(`pl/articles/${translationKey}/`)
+  : undefined;
+const enAlternateHref = translationLanguages.has('en')
+  ? withBase(`en/articles/${translationKey}/`)
+  : undefined;
+const plHref = plAlternateHref ?? withBase('pl/');
+const enHref = enAlternateHref ?? withBase('en/');
+
+const relatedArticles = publishedArticles
+  .filter(({ data }) => data.lang === lang && data.translationKey !== translationKey)
   .map((article) => ({
     title: article.data.title,
-    href: `/${lang}/articles/${article.data.translationKey}/`,
+    href: withBase(`${lang}/articles/${article.data.translationKey}/`),
     sharedTagCount: article.data.tags.filter((tag) => currentTags.has(tag)).length,
     dateDistance: Math.abs(article.data.date.valueOf() - currentDate),
     date: article.data.date.valueOf(),
@@ -72,6 +87,8 @@ const relatedArticles = (await getCollection(
   title={`${title} | AI Dev Notes`}
   description={description}
   lang={lang}
+  plHref={plAlternateHref}
+  enHref={enAlternateHref}
 >
   <div class="page">
     <Header lang={lang} plHref={plHref} enHref={enHref} />
