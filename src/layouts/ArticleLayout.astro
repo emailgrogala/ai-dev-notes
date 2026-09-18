@@ -10,6 +10,7 @@ import NextTokenSandbox from '../components/NextTokenSandbox.astro';
 import ArticleInsights from '../components/ArticleInsights.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import ArticleViews from '../components/ArticleViews.astro';
+import ArticleFeedback from '../components/ArticleFeedback.astro';
 import { withBase } from '../utils/paths';
 
 interface Props {
@@ -148,6 +149,7 @@ const relatedArticles = publishedArticles
           <slot />
         </div>
 
+        <ArticleFeedback slug={translationKey} lang={lang} />
         <AiAssistedNote lang={lang} />
         <RelatedArticles articles={relatedArticles} lang={lang} />
       </article>

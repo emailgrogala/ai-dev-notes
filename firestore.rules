@@ -2,17 +2,66 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function feedbackIsValid(feedback) {
+      return feedback is map
+        && feedback.keys().hasOnly(['helpful', 'tooLong', 'tooComplex', 'notHelpful'])
+        && feedback.get('helpful', 0) is int
+        && feedback.get('tooLong', 0) is int
+        && feedback.get('tooComplex', 0) is int
+        && feedback.get('notHelpful', 0) is int
+        && feedback.get('helpful', 0) >= 0
+        && feedback.get('tooLong', 0) >= 0
+        && feedback.get('tooComplex', 0) >= 0
+        && feedback.get('notHelpful', 0) >= 0;
+    }
+
+    function feedbackTotal(feedback) {
+      return feedback.get('helpful', 0)
+        + feedback.get('tooLong', 0)
+        + feedback.get('tooComplex', 0)
+        + feedback.get('notHelpful', 0);
+    }
+
+    function createsFirstView() {
+      return request.resource.data.keys().hasOnly(['views'])
+        && request.resource.data.keys().hasAll(['views'])
+        && request.resource.data.views is int
+        && request.resource.data.views == 1;
+    }
+
+    function createsFirstFeedback() {
+      return request.resource.data.keys().hasOnly(['feedback'])
+        && request.resource.data.keys().hasAll(['feedback'])
+        && feedbackIsValid(request.resource.data.feedback)
+        && feedbackTotal(request.resource.data.feedback) == 1;
+    }
+
+    function incrementsViewsOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views'])
+        && request.resource.data.get('views', 0) is int
+        && request.resource.data.get('views', 0) == resource.data.get('views', 0) + 1;
+    }
+
+    function incrementsOneFeedbackOnly() {
+      let before = resource.data.get('feedback', {});
+      let after = request.resource.data.get('feedback', {});
+
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['feedback'])
+        && feedbackIsValid(before)
+        && feedbackIsValid(after)
+        && after.get('helpful', 0) >= before.get('helpful', 0)
+        && after.get('tooLong', 0) >= before.get('tooLong', 0)
+        && after.get('tooComplex', 0) >= before.get('tooComplex', 0)
+        && after.get('notHelpful', 0) >= before.get('notHelpful', 0)
+        && feedbackTotal(after) == feedbackTotal(before) + 1;
+    }
+
     match /articles/{slug} {
       allow read: if true;
 
-      allow create: if request.resource.data.keys().hasOnly(['views'])
-        && request.resource.data.views is int
-        && request.resource.data.views == 1;
+      allow create: if createsFirstView() || createsFirstFeedback();
 
-      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views'])
-        && resource.data.views is int
-        && request.resource.data.views is int
-        && request.resource.data.views == resource.data.views + 1;
+      allow update: if incrementsViewsOnly() || incrementsOneFeedbackOnly();
 
       allow delete: if false;
     }

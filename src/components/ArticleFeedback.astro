@@ -1,0 +1,257 @@
+---
+interface Props {
+  slug: string;
+  lang: 'pl' | 'en';
+}
+
+const { slug, lang } = Astro.props;
+
+const content = lang === 'pl'
+  ? {
+      title: 'Jak oceniasz ten artykuł?',
+      options: {
+        helpful: 'Pomocny',
+        tooLong: 'Zbyt rozwlekły',
+        tooComplex: 'Zbyt skomplikowany',
+        notHelpful: 'Nie pomógł',
+      },
+      success: 'Dziękujemy za opinię',
+      error: 'Nie udało się zapisać opinii. Spróbuj ponownie.',
+    }
+  : {
+      title: 'How would you rate this article?',
+      options: {
+        helpful: 'Helpful',
+        tooLong: 'Too long',
+        tooComplex: 'Too complex',
+        notHelpful: 'Not helpful',
+      },
+      success: 'Thanks for your feedback',
+      error: 'We could not save your feedback. Please try again.',
+    };
+---
+
+<section
+  class="article-feedback"
+  data-article-feedback
+  data-slug={slug}
+  data-success={content.success}
+  data-error={content.error}
+>
+  <fieldset>
+    <legend>{content.title}</legend>
+    <div class="article-feedback__options">
+      {Object.entries(content.options).map(([value, label]) => (
+        <button
+          type="button"
+          data-feedback-option={value}
+          aria-pressed="false"
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  </fieldset>
+  <p class="article-feedback__status" data-feedback-status aria-live="polite" hidden></p>
+</section>
+
+<script>
+  import { doc, increment, setDoc } from 'firebase/firestore/lite';
+  import { getFirestoreDb } from '../lib/firebase';
+
+  const STORAGE_KEY_PREFIX = 'ai-dev-notes:feedback:';
+  const FEEDBACK_OPTIONS = ['helpful', 'tooLong', 'tooComplex', 'notHelpful'] as const;
+  type FeedbackOption = typeof FEEDBACK_OPTIONS[number];
+
+  function isFeedbackOption(value: string | null): value is FeedbackOption {
+    return FEEDBACK_OPTIONS.some((option) => option === value);
+  }
+
+  function setVotedState(element: HTMLElement, selected: FeedbackOption): void {
+    element.querySelectorAll<HTMLButtonElement>('[data-feedback-option]').forEach((button) => {
+      const isSelected = button.dataset.feedbackOption === selected;
+      button.disabled = true;
+      button.setAttribute('aria-pressed', String(isSelected));
+      button.classList.toggle('is-selected', isSelected);
+    });
+  }
+
+  function setBusyState(element: HTMLElement, busy: boolean): void {
+    element.setAttribute('aria-busy', String(busy));
+    element.querySelectorAll<HTMLButtonElement>('[data-feedback-option]').forEach((button) => {
+      button.disabled = busy;
+    });
+  }
+
+  function showStatus(element: HTMLElement, message: string, isError = false): void {
+    const status = element.querySelector<HTMLElement>('[data-feedback-status]');
+    if (!status) {
+      return;
+    }
+
+    status.textContent = message;
+    status.classList.toggle('is-error', isError);
+    status.hidden = false;
+  }
+
+  function initializeFeedback(element: HTMLElement): void {
+    const { slug, success, error } = element.dataset;
+    if (!slug || !success || !error) {
+      return;
+    }
+
+    const storageKey = `${STORAGE_KEY_PREFIX}${slug}`;
+    let storedFeedback: string | null = null;
+
+    try {
+      storedFeedback = localStorage.getItem(storageKey);
+    } catch (storageError) {
+      console.warn('Could not read locally stored article feedback.', storageError);
+    }
+
+    if (isFeedbackOption(storedFeedback)) {
+      setVotedState(element, storedFeedback);
+      showStatus(element, success);
+      return;
+    }
+
+    element.querySelectorAll<HTMLButtonElement>('[data-feedback-option]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const selected = button.dataset.feedbackOption ?? null;
+        if (!isFeedbackOption(selected) || element.getAttribute('aria-busy') === 'true') {
+          return;
+        }
+
+        const status = element.querySelector<HTMLElement>('[data-feedback-status]');
+        if (status) {
+          status.hidden = true;
+        }
+        setBusyState(element, true);
+
+        try {
+          const db = getFirestoreDb();
+          if (!db) {
+            throw new Error('Firebase is not configured.');
+          }
+
+          const articleRef = doc(db, 'articles', slug);
+          await setDoc(
+            articleRef,
+            { feedback: { [selected]: increment(1) } },
+            { merge: true }
+          );
+
+          try {
+            localStorage.setItem(storageKey, selected);
+          } catch (storageError) {
+            console.warn('Could not store article feedback locally.', storageError);
+          }
+
+          setVotedState(element, selected);
+          showStatus(element, success);
+        } catch (saveError) {
+          console.warn('Could not save article feedback.', saveError);
+          setBusyState(element, false);
+          showStatus(element, error, true);
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-article-feedback]').forEach(initializeFeedback);
+</script>
+
+<style>
+  .article-feedback {
+    margin-top: 56px;
+    padding: 24px;
+    border: 1px solid #dbe3ec;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .article-feedback fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .article-feedback legend {
+    padding: 0;
+    color: #1f2937;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .article-feedback__options {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .article-feedback button {
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #334155;
+    background: #f8fafc;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 650;
+    line-height: 1.25;
+    cursor: pointer;
+  }
+
+  .article-feedback button:hover:not(:disabled) {
+    border-color: #64748b;
+    background: #f1f5f9;
+  }
+
+  .article-feedback button:focus-visible {
+    outline: 2px solid #111827;
+    outline-offset: 3px;
+  }
+
+  .article-feedback button:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  .article-feedback button.is-selected {
+    border-color: #334155;
+    color: #fff;
+    background: #334155;
+    opacity: 1;
+  }
+
+  .article-feedback__status {
+    margin: 14px 0 0;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .article-feedback__status.is-error {
+    color: #9f1239;
+  }
+
+  @media (max-width: 540px) {
+    .article-feedback {
+      padding: 20px;
+    }
+
+    .article-feedback__options {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .article-feedback button {
+      width: 100%;
+      text-align: left;
+    }
+  }
+</style>

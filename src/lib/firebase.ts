@@ -22,7 +22,7 @@ export function getFirestoreDb(): Firestore | null {
   );
 
   if (!isConfigured) {
-    console.info('Firebase is not configured. Article views are disabled.');
+    console.info('Firebase is not configured. Article interactions are disabled.');
     firestore = null;
     return firestore;
   }
