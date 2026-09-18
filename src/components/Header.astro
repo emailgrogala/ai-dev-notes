@@ -15,6 +15,9 @@ const {
 
 const aboutLabel = lang === 'pl' ? 'O projekcie' : 'About';
 const aboutHref = `/${lang}/about/`;
+
+const glossaryLabel = lang === 'pl' ? 'Słownik' : 'Glossary';
+const glossaryHref = `/${lang}/glossary/`;
 ---
 
 <header class="site-header">
@@ -32,6 +35,7 @@ const aboutHref = `/${lang}/about/`;
       aria-label={lang === 'pl' ? 'Główna nawigacja' : 'Main navigation'}
     >
       <a href={aboutHref}>{aboutLabel}</a>
+      <a href={glossaryHref}>{glossaryLabel}</a>
 
       <LanguageSwitch
         lang={lang}

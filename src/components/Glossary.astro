@@ -1,0 +1,136 @@
+---
+import { glossaryEntries, articleHref, type GlossaryLang } from "../data/glossary";
+
+interface Props {
+  lang: GlossaryLang;
+}
+
+const { lang } = Astro.props;
+const copy = lang === "pl"
+  ? {
+      title: "Słownik pojęć",
+      intro: "Krótki słownik terminów używanych w AI Dev Notes. Definicje są celowo zwięzłe — jeśli dane pojęcie jest szerzej omówione w serwisie, prowadzi do niego link.",
+      readMore: "Czytaj więcej",
+    }
+  : {
+      title: "Glossary",
+      intro: "A short glossary of terms used across AI Dev Notes. Definitions are intentionally concise — when a concept is explained in more detail elsewhere on the site, a link points to that article.",
+      readMore: "Read more",
+    };
+---
+
+<section class="glossary" aria-labelledby="glossary-title">
+  <header class="glossary-header">
+    <h1 id="glossary-title">{copy.title}</h1>
+    <p>{copy.intro}</p>
+  </header>
+
+  <nav class="glossary-index" aria-label={lang === "pl" ? "Indeks pojęć" : "Glossary index"}>
+    {glossaryEntries.map((entry) => (
+      <a href={`#${entry.id}`}>{entry.term}</a>
+    ))}
+  </nav>
+
+  <div class="glossary-list">
+    {glossaryEntries.map((entry) => (
+      <article class="glossary-entry" id={entry.id}>
+        <h2>{entry.term}</h2>
+        <p>{entry.definition[lang]}</p>
+        {entry.article && (
+          <a class="glossary-more" href={articleHref(lang, entry.article)}>
+            {copy.readMore} <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .glossary {
+    width: min(100%, 760px);
+    margin: 0 auto;
+  }
+
+  .glossary-header {
+    margin-bottom: 2rem;
+  }
+
+  .glossary-header h1 {
+    margin-bottom: 0.75rem;
+  }
+
+  .glossary-header p {
+    margin: 0;
+    color: var(--text-muted, #64748b);
+    line-height: 1.7;
+  }
+
+  .glossary-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 0 0 2.5rem;
+  }
+
+  .glossary-index a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--border, #cbd5e1);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+
+  .glossary-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .glossary-entry {
+    scroll-margin-top: 5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border, #e2e8f0);
+  }
+
+  .glossary-entry:last-child {
+    border-bottom: 1px solid var(--border, #e2e8f0);
+  }
+
+  .glossary-entry h2 {
+    margin: 0 0 0.65rem;
+    font-size: 1.25rem;
+  }
+
+  .glossary-entry p {
+    margin: 0;
+    line-height: 1.75;
+  }
+
+  .glossary-more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 0.65rem;
+    font-size: 0.95rem;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 640px) {
+    .glossary-index {
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .glossary-index a {
+      padding-inline: 0.65rem;
+    }
+
+    .glossary-entry {
+      padding: 1.25rem 0;
+    }
+  }
+</style>
