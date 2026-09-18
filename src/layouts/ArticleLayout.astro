@@ -9,6 +9,7 @@ import ReadingAids from '../components/ReadingAids.astro';
 import NextTokenSandbox from '../components/NextTokenSandbox.astro';
 import ArticleInsights from '../components/ArticleInsights.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import ArticleViews from '../components/ArticleViews.astro';
 import { withBase } from '../utils/paths';
 
 interface Props {
@@ -104,6 +105,8 @@ const relatedArticles = publishedArticles
 
           <div class="article-meta">
             <time datetime={date.toISOString()}>{formattedDate}</time>
+
+            <ArticleViews slug={translationKey} lang={lang} />
 
             {tags.length > 0 && (
               <div class="tags">

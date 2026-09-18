@@ -1,0 +1,96 @@
+---
+interface Props {
+  slug: string;
+  lang: 'pl' | 'en';
+}
+
+const { slug, lang } = Astro.props;
+---
+
+<span
+  class="article-views"
+  data-article-views
+  data-slug={slug}
+  data-lang={lang}
+  aria-live="polite"
+  hidden
+></span>
+
+<script>
+  import { doc, getDoc, increment, setDoc } from 'firebase/firestore/lite';
+  import { getFirestoreDb } from '../lib/firebase';
+
+  const SESSION_KEY_PREFIX = 'ai-dev-notes:viewed:';
+
+  function formatViews(views: number, lang: 'pl' | 'en'): string {
+    if (lang === 'en') {
+      return `${views.toLocaleString('en-GB')} ${views === 1 ? 'view' : 'views'}`;
+    }
+
+    const pluralCategory = new Intl.PluralRules('pl-PL').select(views);
+    const label = pluralCategory === 'one'
+      ? 'odsłona'
+      : pluralCategory === 'few'
+        ? 'odsłony'
+        : 'odsłon';
+
+    return `${views.toLocaleString('pl-PL')} ${label}`;
+  }
+
+  async function loadViews(element: HTMLElement): Promise<void> {
+    const { slug, lang } = element.dataset;
+
+    if (!slug || (lang !== 'pl' && lang !== 'en')) {
+      return;
+    }
+
+    try {
+      const db = getFirestoreDb();
+
+      if (!db) {
+        return;
+      }
+
+      const articleRef = doc(db, 'articles', slug);
+      const sessionKey = `${SESSION_KEY_PREFIX}${slug}`;
+      const hasViewed = sessionStorage.getItem(sessionKey) === 'true';
+      if (!hasViewed) {
+        await setDoc(articleRef, { views: increment(1) }, { merge: true });
+        sessionStorage.setItem(sessionKey, 'true');
+      }
+
+      const snapshot = await getDoc(articleRef);
+      const storedViews = snapshot.data()?.views;
+      const views = typeof storedViews === 'number' ? storedViews : undefined;
+
+      if (views === undefined) {
+        return;
+      }
+
+      element.textContent = formatViews(views, lang);
+      element.hidden = false;
+    } catch (error) {
+      console.warn('Could not load article views.', error);
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-article-views]').forEach((element) => {
+    void loadViews(element);
+  });
+</script>
+
+<style>
+  .article-views:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .article-views:not([hidden])::before {
+    width: 3px;
+    height: 3px;
+    margin-right: 14px;
+    border-radius: 50%;
+    background: currentColor;
+    content: '';
+  }
+</style>
