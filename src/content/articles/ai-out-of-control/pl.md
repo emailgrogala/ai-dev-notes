@@ -140,6 +140,8 @@ próbuje wyglądać na zgodny z oczekiwaniami
 
 W 2025 roku OpenAI i Apollo Research informowały o zachowaniach zgodnych ze scheming w kontrolowanych testach kilku modeli frontierowych.
 
+W tym kontekście terminy takie jak `scheming` czy `deception` opisują obserwowalne zachowanie w eksperymencie. Nie wymagają założenia, że model ma ludzką świadomość, emocje lub motywacje.
+
 Jednocześnie OpenAI zaznaczyło, że nie ma dowodu, iż obecnie wdrożone modele mogłyby nagle „przełączyć się” na prowadzenie szkodliwego, ukrytego planu na dużą skalę.
 
 Najważniejsze rozróżnienie brzmi:
@@ -268,6 +270,8 @@ Najbardziej precyzyjna odpowiedź brzmi:
 Istnieją jednak rzeczywiste powody, by badać problem kontroli.
 
 Modele potrafią zachowywać się nieprzewidywalnie, agenci dostają coraz większą autonomię, a w specjalnie przygotowanych eksperymentach obserwowano zachowania związane z oszukiwaniem, ukrywaniem działań czy realizacją źle zdefiniowanych celów.
+
+Nowsze oceny ryzyka również nie wskazują, że doszło do utraty kontroli. W pilotażowym raporcie dotyczącym sabotażu Anthropic oceniło ryzyko autonomicznych, istotnie szkodliwych działań Opus 4 jako bardzo niskie, choć nie całkowicie zerowe.
 
 Najważniejsze jest więc odróżnienie:
 

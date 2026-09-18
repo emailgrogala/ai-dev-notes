@@ -25,6 +25,8 @@ powinien zawsze prowadzić do `4`.
 
 Prompt może prowadzić do kilku różnych poprawnych odpowiedzi, ponieważ model generuje wynik probabilistycznie.
 
+Ale probabilistyczność nie jest jedyną różnicą. Nawet jeśli ograniczymy losowość generowania, prompt nadal nie staje się kodem — model **interpretuje instrukcję**, zamiast wykonywać formalnie zdefiniowany algorytm.
+
 ## Ale prompt nie jest też zwykłym pytaniem
 
 Porównaj:
@@ -58,20 +60,24 @@ KRYTERIA
 
 ## Kontekst zmienia odpowiedź
 
-Model korzysta z wcześniejszych instrukcji i danych wejściowych, dlatego wynik zależy od całego dostępnego kontekstu.
+Prompt użytkownika jest tylko jedną częścią kontekstu. Na wynik mogą wpływać również instrukcje systemowe i developerskie, historia rozmowy, wyniki narzędzi oraz inne dane wejściowe dostępne modelowi.
+
+Dlatego ta sama instrukcja użytkownika może prowadzić do innego wyniku w innym kontekście.
 
 ## Prompt nie daje pełnej kontroli
 
-Nawet instrukcja „zwróć dokładnie JSON” może zakończyć się błędem. Dlatego system produkcyjny powinien mieć walidację.
+Sama instrukcja w promptcie „zwróć dokładnie JSON” nie daje takiej samej gwarancji jak mechanizm **structured output**, schema validation lub tool calling dostępny w API.
+
+Dlatego system produkcyjny nie powinien polegać wyłącznie na tekście promptu. Struktura odpowiedzi powinna być wymuszana lub walidowana przez mechanizmy aplikacyjne.
 
 ```text
 prompt
   ↓
 LLM
   ↓
-walidacja
+structured output / walidacja schematu
   ↓
-korekta lub odrzucenie
+aplikacja
 ```
 
 ## Czy dłuższy prompt jest lepszy?

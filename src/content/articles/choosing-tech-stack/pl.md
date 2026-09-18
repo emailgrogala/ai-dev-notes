@@ -19,11 +19,11 @@ Założenia były proste: artykuły w repozytorium, łatwa publikacja, mało Jav
 
 ## Dlaczego nie zwykły React
 
-React jest świetny do interaktywnych aplikacji, ale większość tej strony to statyczna treść. Nie było potrzeby zamieniać całego serwisu w aplikację kliencką.
+React jest świetny do interaktywnych aplikacji, ale większość tej strony to statyczna treść. Nie było potrzeby budowania całego serwisu wokół Reacta ani hydratować dużej części interfejsu po stronie klienta.
 
 ## Dlaczego nie Angular
 
-Angular dobrze sprawdza się w dużych aplikacjach biznesowych, ale jego rozbudowana architektura byłaby tutaj większa niż sam problem.
+Angular oferuje rozbudowany, ustandaryzowany framework aplikacyjny. W tym małym, content-first projekcie większość jego możliwości nie byłaby potrzebna.
 
 ## Dlaczego nie Next.js
 
@@ -47,6 +47,8 @@ GitHub Pages
 
 JavaScript może działać tylko tam, gdzie jest potrzebny — np. w interaktywnym sandboxie — bez zamieniania całej strony w SPA.
 
+Islands nie oznaczają braku JavaScriptu. Oznaczają możliwość wysyłania go tylko tam, gdzie dana interakcja rzeczywiście go potrzebuje.
+
 ## Markdown jako część architektury
 
 Frontmatter pozwala przechowywać tytuł, język, tagi, `translationKey`, status szkicu i teraz także główne `insights`.
@@ -55,11 +57,13 @@ Frontmatter pozwala przechowywać tytuł, język, tagi, `translationKey`, status
 
 Nie. Narzędzie powinno odpowiadać problemowi.
 
+Przykładowe dopasowanie, nie reguła:
+
 ```text
-duża aplikacja biznesowa → Angular
-interaktywne UI → React
-React + SSR/backend → Next.js
-content + punktowa interaktywność → Astro
+rozbudowana aplikacja ze spójnym frameworkiem → Angular może pasować
+dużo własnej interaktywności UI → React może pasować
+React + routing/rendering full-stack → Next.js może pasować
+content-first + punktowa interaktywność → Astro może pasować
 ```
 
 Najważniejsza zasada pozostaje prosta:

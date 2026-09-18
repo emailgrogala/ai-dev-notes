@@ -78,6 +78,8 @@ Only after that were the individual close-up frames generated.
 
 That mattered because the main challenge in a sequence like this is not creating a single image. It is maintaining **visual consistency** across the whole story.
 
+A reference frame helps preserve the visual direction, but it does not guarantee perfect consistency across later generations — characters, details, and proportions can still change.
+
 ## Consistency matters more than extra effects
 
 It would have been easy to focus on animation, camera movement, or transitions.
@@ -117,9 +119,11 @@ It supported several stages:
 - planning the storyboard,
 - proposing a visual style,
 - generating individual scenes,
-- evaluating whether animation was necessary at all.
+- comparing options and arguments about whether animation was necessary at all.
 
 That is the more interesting part of the workflow. The value is not only in “generating an image”, but in moving quickly through multiple versions of the idea.
+
+AI helped compare the options, but the decision to keep the comic format was made after evaluating the generated results. AI supported the analysis; the final format remained a human decision.
 
 ## What I learned
 
@@ -130,3 +134,5 @@ This small experiment highlights one practical rule:
 At first, a short film seemed like the obvious direction. After a few iterations, the comic proved clearer, faster to consume, and better matched to the joke itself.
 
 That kind of decision is a useful part of working with AI: the tool can help generate more options, but choosing the final form remains a human decision.
+
+The experiment also showed something else: AI can do more than accelerate the original plan — it can help reveal that the original plan was unnecessarily complex.

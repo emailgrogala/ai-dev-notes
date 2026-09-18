@@ -7,8 +7,8 @@ translationKey: how-llm-predicts-next-token
 tags: [llm, tokens, probability, temperature]
 insights:
   - "LLM generuje odpowiedź krok po kroku, przewidując kolejne tokeny."
-  - "Najbardziej prawdopodobny token nie musi zostać wybrany w każdym uruchomieniu."
-  - "Temperature zmienia rozkład wyboru tokenów, a nie wiedzę modelu."
+  - "Przy sampling najbardziej prawdopodobny token nie musi zostać wybrany w każdym kroku."
+  - "Temperatura zmienia rozkład wyboru tokenów, a nie wiedzę modelu."
 draft: false
 ---
 Najprostszy sposób zrozumienia LLM to zacząć od pytania: **co powinno pojawić się dalej?** Model językowy nie wyszukuje gotowej odpowiedzi w tabeli. Buduje rozkład prawdopodobieństwa kolejnych tokenów i na jego podstawie generuje tekst.
@@ -30,11 +30,15 @@ P("psa"  | "Ala ma") = 1/3 ≈ 33,3%
 
 ## Czy model zawsze wybierze „kota”?
 
-Nie. `kota` może być top tokenem, ale pojedyncze losowanie może zakończyć się wyborem `psa`.
+Jeśli generowanie korzysta z **sampling**, nie. `kota` może być top tokenem, ale pojedyncze losowanie może zakończyć się wyborem `psa`.
 
-## Gdzie pojawia się temperature
+Przy strategii **greedy decoding** model wybrałby token o najwyższym prawdopodobieństwie.
+
+## Gdzie pojawia się temperatura
 
 Niższa temperatura wyostrza rozkład, a wyższa go spłaszcza. Oznacza to większą lub mniejszą szansę wyboru tokenów spoza ścisłego topu.
+
+Temperatura ma znaczenie wtedy, gdy z rozkładu wybieramy token metodą losowania. Nie oznacza, że model „wie więcej” ani że przy wyższej temperaturze zaczyna „myśleć bardziej kreatywnie” — zmienia się sposób próbkowania z rozkładu.
 
 ```text
 pᵢ' = pᵢ^(1/T) / Σ pⱼ^(1/T)

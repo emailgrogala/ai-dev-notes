@@ -106,6 +106,8 @@ Podziel odpowiedź na:
 
 Nie oznacza to, że model automatycznie stanie się nieomylny. Pomaga jednak zobaczyć strukturę odpowiedzi.
 
+Trzeba też pamiętać, że **deklarowany przez model poziom pewności nie jest niezależnym pomiarem poprawności**. Jeżeli model oznacza coś jako „pewne”, nadal może się mylić.
+
 ## Zadawaj to samo pytanie inaczej
 
 Jedna odpowiedź może być przypadkowo przekonująca.
@@ -117,6 +119,22 @@ Warto czasem:
 - porównać dwa podejścia.
 
 Jeżeli przy niewielkiej zmianie pytania model całkowicie zmienia stanowisko, jest to sygnał, że potrzebna jest dodatkowa weryfikacja.
+
+Stabilność odpowiedzi działa jednak tylko jako **sygnał diagnostyczny**. Model może konsekwentnie powtarzać ten sam błąd, więc zgodność kilku odpowiedzi nie zastępuje źródła, testu ani innej niezależnej kontroli.
+
+## Jak zmniejszać ryzyko halucynacji przed odpowiedzią
+
+Weryfikacja jest potrzebna po wygenerowaniu odpowiedzi, ale część ryzyka można ograniczyć wcześniej.
+
+Pomaga m.in.:
+- dostarczenie właściwego kontekstu i źródeł,
+- jasne określenie, czego model nie powinien zgadywać,
+- poproszenie o wskazanie brakujących informacji zamiast ich uzupełniania,
+- ograniczenie odpowiedzi do dostarczonych materiałów, gdy zadanie tego wymaga,
+- użycie RAG lub innych narzędzi wyszukujących aktualne dane,
+- rozdzielenie generowania od późniejszej walidacji.
+
+To nie eliminuje halucynacji, ale zmniejsza liczbę sytuacji, w których model musi „wypełniać luki” bez wystarczających danych.
 
 ## W kodzie test jest silniejszy niż argument
 

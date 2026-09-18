@@ -138,6 +138,8 @@ tries to appear compliant
 
 In 2025, OpenAI and Apollo Research reported behavior consistent with scheming in controlled evaluations of several frontier models.
 
+In this context, terms such as `scheming` and `deception` describe observable behavior in an experiment. They do not require assuming that a model has human-like consciousness, emotions, or motivations.
+
 OpenAI also stated that it had no evidence that currently deployed frontier models could suddenly “flip a switch” and begin carrying out major harmful schemes.
 
 The distinction matters:
@@ -262,6 +264,8 @@ The most precise answer is:
 There are, however, legitimate reasons to study control.
 
 Models can behave unpredictably, agents are gaining more autonomy, and carefully designed experiments have demonstrated deception-like behavior, concealed actions, and poorly aligned objectives.
+
+More recent risk assessments also do not show that loss of control has already occurred. In its pilot sabotage risk report, Anthropic assessed the risk of autonomous, materially harmful sabotage from Opus 4 as very low, though not literally zero.
 
 The important distinction is between:
 

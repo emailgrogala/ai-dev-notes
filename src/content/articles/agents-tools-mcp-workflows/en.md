@@ -109,6 +109,8 @@ Workflows are usually more predictable.
 
 ## Agent
 
+There is no single universally accepted definition of an agent. In this article, we use a practical definition: a system that can choose the next actions needed to pursue a goal.
+
 An agent receives a **goal** and decides how to pursue it.
 
 For example:
@@ -156,14 +158,14 @@ The more autonomy a system has, the more important permissions, limits, monitori
 
 ## What is MCP?
 
-**Model Context Protocol** is a standard for exposing external data and tools to AI applications through a common interface.
+**Model Context Protocol** is a communication protocol between an AI application and external systems. It standardizes how a server can expose capabilities such as `tools`, `resources`, and `prompts`.
 
 MCP is not:
 - a model,
 - an agent,
 - a workflow.
 
-It is an integration layer.
+It can be treated as an integration layer built around a shared protocol.
 
 An MCP server may expose:
 - tools,

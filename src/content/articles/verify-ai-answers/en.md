@@ -93,6 +93,8 @@ Separate the answer into:
 
 This does not make the model infallible, but it makes the structure of the answer easier to inspect.
 
+It is also important to remember that **the model's stated confidence is not an independent measurement of correctness**. A model can label something as certain and still be wrong.
+
 ## Ask the question in another way
 
 A robust answer should not collapse after a small change in wording.
@@ -102,6 +104,22 @@ Useful techniques include:
 - asking for an argument against the previous answer,
 - requesting an independent solution,
 - comparing two approaches.
+
+Consistency is only a **diagnostic signal**. A model can repeat the same error consistently, so several similar answers are not a substitute for a source, test, or another independent check.
+
+## How to reduce hallucination risk before generation
+
+Verification happens after an answer is produced, but some risk can be reduced earlier.
+
+Useful techniques include:
+- providing the right context and source material,
+- stating clearly what the model should not guess,
+- asking it to identify missing information instead of filling gaps,
+- restricting the answer to supplied material when the task requires it,
+- using RAG or other retrieval tools for current or domain-specific information,
+- separating generation from later validation.
+
+These techniques do not eliminate hallucinations, but they reduce situations in which the model has to fill gaps without enough evidence.
 
 ## In software, tests are stronger than reassurance
 

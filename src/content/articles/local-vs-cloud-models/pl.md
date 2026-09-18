@@ -24,6 +24,8 @@ Nie ma jednej poprawnej odpowiedzi.
 
 Oba podejścia rozwiązują inny zestaw problemów.
 
+Ważne rozróżnienie: **local vs cloud opisuje sposób uruchomienia modelu, a nie jego licencję**. Model działający lokalnie nie musi być open source, a model z otwartymi wagami może być oferowany również przez API.
+
 ## Dwa modele pracy
 
 ### Model lokalny
@@ -86,7 +88,7 @@ Zamiast przechowywać parametry modelu w wysokiej precyzji, wykorzystuje się mn
 Dzięki temu:
 - model zajmuje mniej pamięci,
 - może działać na słabszym sprzęcie,
-- inference bywa szybszy.
+- inference może być szybszy, choć efekt zależy od sprzętu, formatu kwantyzacji i używanego runtime'u.
 
 Kosztem może być częściowa utrata jakości.
 
@@ -126,7 +128,7 @@ W zastosowaniach biznesowych to często decyzja architektoniczna i compliance, n
 
 ## Jakość modeli
 
-To obszar, w którym cloud ma często przewagę.
+W przypadku największych i najnowszych modeli usługi cloud często mają przewagę, ponieważ udostępniają infrastrukturę trudną do odtworzenia lokalnie.
 
 Dostawca API może udostępniać modele:
 - większe,

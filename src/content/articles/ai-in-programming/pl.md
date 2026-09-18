@@ -23,7 +23,7 @@ Model tworzy większe fragmenty: komponent, testy, typy czy walidację. Nadal ni
 
 ## Poziom 3: AI w repozytorium
 
-Agent może:
+Agent z odpowiednimi narzędziami i uprawnieniami może:
 
 ```text
 przeczytać repozytorium
@@ -56,8 +56,11 @@ Praktyczny model:
 ```text
 Agent 1 → implementacja
 Agent 2 → review
+testy   → niezależny sygnał
 Człowiek → decyzja
 ```
+
+Drugi agent nie gwarantuje niezależnej oceny. Może podzielać podobne błędy lub założenia pierwszego agenta, dlatego review warto łączyć z testami i decyzją człowieka.
 
 ## Co zmienia się w roli programisty
 

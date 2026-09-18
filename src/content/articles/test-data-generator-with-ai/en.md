@@ -11,8 +11,8 @@ tags:
   - react
   - testing
 insights:
-  - "AI provides the most value when it operates inside a clearly defined engineering process, not when it merely generates isolated code snippets."
-  - "Separating implementation and review between two agents reduces the risk of uncritically accepting the same system's own solution."
+  - "In this project, AI provided the most value when it operated inside a clearly defined engineering process rather than merely generating isolated code snippets."
+  - "Separating implementation and review between two agents can help reduce the risk of uncritically accepting the same system's own solution."
   - "The human still defines direction, scope, and quality criteria, while agents execute and verify individual stages of the work."
 draft: false
 ---
@@ -27,7 +27,7 @@ The interesting question was not simply:
 
 A better question was:
 
-> **can AI participate in a controlled software development process — from task analysis and implementation to testing, independent review, and deployment?**
+> **can AI participate in a controlled software development process — from task analysis and implementation to testing, a separate review performed by an agent that did not implement the change, and deployment?**
 
 ## Project goal
 
@@ -124,7 +124,7 @@ The second agent has a different role.
 
 It does not implement the feature and does not directly fix the code.
 
-Its job is to independently evaluate:
+Its job is to evaluate the change separately from the implementation stage:
 
 - compliance with requirements,
 - implementation correctness,
@@ -362,17 +362,19 @@ pass some tests
 
 and still need correction.
 
-Independent review is therefore not an optional extra.
+Separate review is therefore not an optional extra.
 
 It is part of the process.
+
+This does not create full methodological independence — both stages still use AI models and may share similar limitations or incorrect assumptions. The separation does, however, provide an additional checkpoint.
 
 ## Does Agent 2 replace a human?
 
 No.
 
-The second agent increases the chance of finding problems, but it is still an AI model.
+The second agent can increase the chance of finding problems, but it is still an AI model.
 
-It can miss things too.
+It can miss things too, and this project does not prove that two agents are always better than one. Here, separating the roles provided an additional checkpoint.
 
 The process is closer to:
 

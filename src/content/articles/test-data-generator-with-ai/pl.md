@@ -11,8 +11,8 @@ tags:
   - react
   - testing
 insights:
-  - "AI daje największą wartość wtedy, gdy pracuje w jasno zdefiniowanym procesie, a nie tylko generuje pojedyncze fragmenty kodu."
-  - "Rozdzielenie implementacji i review między dwóch agentów ogranicza ryzyko bezkrytycznego zaakceptowania własnego rozwiązania."
+  - "W tym projekcie AI dawało największą wartość wtedy, gdy działało w jasno zdefiniowanym procesie, a nie tylko generowało pojedyncze fragmenty kodu."
+  - "Rozdzielenie implementacji i review między dwóch agentów pomaga ograniczyć ryzyko bezkrytycznego zaakceptowania własnego rozwiązania."
   - "Człowiek nadal definiuje kierunek, zakres i kryteria jakości, a agenci realizują i kontrolują kolejne etapy pracy."
 draft: false
 ---
@@ -27,7 +27,7 @@ Nie chodziło więc tylko o pytanie:
 
 Bardziej interesujące było:
 
-> **czy AI można włączyć w cały kontrolowany proces tworzenia oprogramowania — od analizy zadania, przez implementację i testy, aż po niezależny review i publikację?**
+> **czy AI można włączyć w cały kontrolowany proces tworzenia oprogramowania — od analizy zadania, przez implementację i testy, aż po oddzielny review wykonywany przez agenta, który nie implementował zmiany, i publikację?**
 
 ## Cel projektu
 
@@ -126,7 +126,7 @@ Drugi agent ma inną rolę.
 
 Nie implementuje funkcji i nie poprawia bezpośrednio kodu.
 
-Jego zadaniem jest niezależne sprawdzenie:
+Jego zadaniem jest oddzielne sprawdzenie rozwiązania przez agenta, który nie implementował danej zmiany:
 
 - zgodności z wymaganiami,
 - poprawności implementacji,
@@ -366,17 +366,19 @@ przechodzić część testów
 
 a mimo to wymagać poprawy.
 
-Dlatego niezależny review nie jest dodatkiem do procesu.
+Dlatego oddzielny review nie jest dodatkiem do procesu.
 
 Jest jego częścią.
+
+Nie oznacza to pełnej niezależności metodologicznej — oba etapy nadal korzystają z modeli AI i mogą dzielić podobne ograniczenia lub błędne założenia. Rozdzielenie ról daje jednak dodatkowy punkt kontroli.
 
 ## Czy Agent 2 zastępuje człowieka?
 
 Nie.
 
-Drugi agent zwiększa szansę znalezienia problemu, ale również jest modelem AI.
+Drugi agent może zwiększyć szansę znalezienia problemu, ale również jest modelem AI.
 
-Może czegoś nie zauważyć.
+Może czegoś nie zauważyć, a jego udział nie dowodzi, że dwa agenty są zawsze lepsze od jednego. W tym projekcie rozdzielenie ról dało po prostu dodatkowy punkt kontroli.
 
 Dlatego przepływ wygląda raczej tak:
 

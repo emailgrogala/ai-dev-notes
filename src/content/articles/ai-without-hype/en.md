@@ -17,6 +17,8 @@ Artificial intelligence is simultaneously overhyped and underestimated. Some peo
 
 Modern language models make many tasks accessible through conversation: summarization, translation, code generation, document analysis, and information organization.
 
+Language models are one of the most visible applications of AI today, but **AI is broader than LLMs**. It also includes other kinds of systems, such as vision models, recommender systems, and pattern-recognition systems.
+
 ## What an LLM actually does
 
 A language model predicts the next tokens from context. That does not reduce it to simple guessing. Scale, training, and learned parameters let it capture many patterns in language and data.

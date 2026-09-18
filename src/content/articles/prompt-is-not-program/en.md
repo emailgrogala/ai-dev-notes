@@ -25,6 +25,8 @@ should always produce `4`.
 
 A prompt can produce several valid outputs because generation is probabilistic.
 
+But probability is not the only difference. Even if randomness is heavily reduced, a prompt still does not become code — the model **interprets the instruction** instead of executing a formally defined algorithm.
+
 ## But it is not just a question
 
 Compare:
@@ -58,20 +60,24 @@ CRITERIA
 
 ## Context changes the answer
 
-The model uses earlier instructions and input data, so the result depends on the available context.
+The user's prompt is only one part of the context. System and developer instructions, conversation history, tool results, and other input data may also influence the result.
+
+That means the same user instruction can produce a different result in a different context.
 
 ## Prompts do not provide full control
 
-Even “return exactly JSON” can fail. Production systems therefore need validation.
+A plain prompt instruction such as “return exactly JSON” does not provide the same guarantee as **structured output**, schema validation, or tool calling available through an API.
+
+Production systems therefore should not rely on prompt wording alone. The output structure should be constrained or validated by the application.
 
 ```text
 prompt
   ↓
 LLM
   ↓
-validation
+structured output / schema validation
   ↓
-repair or rejection
+application
 ```
 
 ## Is a longer prompt better?

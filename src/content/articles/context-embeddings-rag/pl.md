@@ -10,8 +10,8 @@ tags:
   - embeddings
   - context
 insights:
-  - "Context window mówi, ile informacji model może przetworzyć naraz, a nie ile wiedzy posiada."
-  - "Embedding zamienia treść na reprezentację wektorową, dzięki której można wyszukiwać podobne znaczeniowo fragmenty."
+  - "Context window mówi, ile tokenów model może obsłużyć w jednym przebiegu, a nie ile wiedzy posiada."
+  - "Embedding tworzy wyuczoną reprezentację wektorową treści, dzięki której można porównywać podobieństwo semantyczne."
   - "RAG łączy wyszukiwanie z generowaniem: najpierw znajduje potrzebne dane, a dopiero potem przekazuje je do modelu."
 draft: false
 ---
@@ -30,7 +30,7 @@ RAG            → jak znaleźć właściwe informacje i przekazać je modelowi
 
 ## Context window
 
-Okno kontekstu to maksymalna ilość informacji, którą model może uwzględnić podczas pojedynczej interakcji.
+Okno kontekstu określa, ile tokenów model może obsłużyć w ramach jednego przebiegu. Obejmuje przekazany kontekst, a zależnie od modelu i sposobu rozliczania limitu również miejsce potrzebne na wygenerowaną odpowiedź.
 
 W kontekście mogą znaleźć się:
 - instrukcje systemowe,
@@ -76,7 +76,7 @@ I tutaj pojawiają się embeddings.
 
 ## Embeddings
 
-Embedding to numeryczna reprezentacja znaczenia danych.
+Embedding to wyuczona numeryczna reprezentacja treści. Nie jest dosłownym „znaczeniem” tekstu, ale pozwala modelować jego cechy i porównywać podobieństwo semantyczne.
 
 Dla tekstu może to wyglądać koncepcyjnie tak:
 
@@ -108,13 +108,7 @@ Jest narzędziem, które pomaga:
 - znajdować podobne dokumenty,
 - budować rekomendacje.
 
-Do przechowywania takich reprezentacji często używa się baz wektorowych.
-
-Przykłady zastosowań:
-- Qdrant,
-- pgvector,
-- Pinecone,
-- Weaviate.
+Do przechowywania i wyszukiwania takich reprezentacji używa się baz oraz technologii wektorowych, np. Qdrant, Pinecone, Weaviate czy PostgreSQL z rozszerzeniem pgvector.
 
 ## Czym jest RAG
 
@@ -143,6 +137,8 @@ odpowiedź
 LLM nie musi otrzymywać całej bazy danych.
 
 Dostaje tylko kilka fragmentów uznanych za istotne.
+
+RAG **nie zmienia wag modelu**. Dostarcza dodatkowe informacje w czasie wykonywania zapytania, dlatego jest czymś innym niż trening lub fine-tuning.
 
 ## Przykład
 

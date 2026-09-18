@@ -7,27 +7,67 @@ translationKey: what-happens-to-chat-data
 tags: [privacy, chatgpt, data]
 insights:
   - "Historia rozmów, pamięć i wykorzystywanie rozmów do ulepszania modeli to odrębne mechanizmy."
-  - "Ustawienia prywatności mogą zmieniać sposób wykorzystania nowych rozmów."
-  - "Do czatu nie warto wpisywać informacji, których nie chcielibyśmy ujawnić lub przetwarzać poza własnym systemem."
+  - "Temporary Chat nie tworzy ani nie aktualizuje pamięci, ale w wariancie spersonalizowanym może korzystać z istniejącej personalizacji."
+  - "Do czatu nie warto wpisywać informacji, których nie chcielibyśmy przetwarzać poza własnym systemem."
 draft: false
 ---
-Pytanie „co dzieje się z tym, co wpisuję do ChatGPT?” nie ma jednej odpowiedzi, bo pod jednym interfejsem działają różne mechanizmy. Najważniejsze jest rozdzielenie historii rozmów, pamięci i ewentualnego wykorzystania treści do ulepszania modeli.
+
+Pytanie „co dzieje się z tym, co wpisuję do ChatGPT?” nie ma jednej odpowiedzi, bo pod jednym interfejsem działają różne mechanizmy. Najważniejsze jest rozdzielenie historii rozmów, pamięci, personalizacji i ewentualnego wykorzystania treści do ulepszania modeli.
+
+> **Stan informacji: wrzesień 2026.** Funkcje prywatności i sposób działania ChatGPT mogą się zmieniać, dlatego przy decyzjach dotyczących danych warto sprawdzać aktualną dokumentację OpenAI.
 
 ## Historia rozmów
 
-Historia pozwala wrócić do wcześniejszych czatów. Sam fakt zapisania rozmowy w historii nie jest tym samym co zapisanie informacji w pamięci modelu.
+Historia pozwala wrócić do wcześniejszych czatów. Sam fakt zapisania rozmowy w historii nie jest tym samym co zapisanie informacji w pamięci.
+
+Usunięcie czatu z widoku historii, zapisanie go lub użycie trybu tymczasowego to odrębne mechanizmy i mogą podlegać różnym zasadom retencji.
 
 ## Pamięć
 
-Pamięć służy do zachowywania wybranych informacji, które mogą być użyte w przyszłych rozmowach. Jest osobnym mechanizmem od historii i treningu.
+Pamięć służy do personalizacji przyszłych rozmów na podstawie informacji dostępnych dla ChatGPT zgodnie z ustawieniami użytkownika.
+
+Ważne jest rozróżnienie:
+
+```text
+historia rozmowy
+≠ pamięć
+```
+
+Rozmowa może znajdować się w historii bez tworzenia nowej pamięci, a istniejąca pamięć może wpływać na odpowiedź w kolejnej rozmowie, jeśli personalizacja jest włączona.
 
 ## Ulepszanie modeli
 
-W ustawieniach konsumenckiego ChatGPT dostępne są mechanizmy kontroli nad tym, czy nowe rozmowy mogą być wykorzystywane do ulepszania modeli. Zasady mogą się zmieniać, dlatego przy decyzjach dotyczących prywatności warto sprawdzać aktualną dokumentację producenta.
+W usługach dla użytkowników indywidualnych, takich jak ChatGPT i Codex, OpenAI może wykorzystywać treść do trenowania i ulepszania modeli.
+
+Użytkownik może z tego zrezygnować w:
+
+```text
+Ustawienia
+→ Kontrola danych
+→ Ulepszaj model dla wszystkich
+```
+
+Po wyłączeniu tej opcji **nowe rozmowy nie są wykorzystywane do trenowania modeli**. Historia rozmów może nadal pozostać włączona.
+
+Dla ofert biznesowych i API obowiązują odrębne zasady; według dokumentacji OpenAI dane wejściowe i wyjściowe w tych usługach nie są domyślnie używane do trenowania modeli.
 
 ## Temporary Chat
 
-Tryb tymczasowy jest przeznaczony do rozmów, które nie mają zachowywać się jak zwykłe czaty z historią i tworzeniem nowych wspomnień.
+Temporary Chat jest przeznaczony do rozmów, których nie chcemy zachowywać jak zwykłych czatów.
+
+Przed rozpoczęciem rozmowy można wybrać wariant:
+
+- **Personalized** — może korzystać z istniejącej pamięci, instrukcji niestandardowych i dostępnej personalizacji,
+- **Unpersonalized** — nie korzysta z pamięci, instrukcji niestandardowych ani personalizacji.
+
+Dopóki rozmowa pozostaje tymczasowa:
+
+- nie pojawia się w historii,
+- nie tworzy ani nie aktualizuje pamięci,
+- nie jest używana do ulepszania modeli,
+- kopia może być przechowywana przez OpenAI do 30 dni ze względów bezpieczeństwa.
+
+Temporary Chat można później zapisać. Po zapisaniu staje się zwykłym czatem i od tego momentu podlega standardowym ustawieniom historii, pamięci i ulepszania modeli.
 
 ## Informacje poufne
 
@@ -39,15 +79,26 @@ Dotyczy to m.in. haseł, sekretów firmowych, danych uwierzytelniających czy pe
 
 ## Aplikacje i usługi zewnętrzne
 
-Gdy model korzysta z zewnętrznych aplikacji lub integracji, część danych może zostać przekazana do dodatkowego dostawcy zgodnie z zasadami tej usługi.
+Gdy model korzysta z zewnętrznych aplikacji, pluginów, akcji lub innych integracji, część danych może zostać przekazana do dodatkowego dostawcy zgodnie z zasadami tej usługi.
+
+Dlatego prywatność rozmowy zależy nie tylko od ustawień samego ChatGPT, ale również od tego, z jakich dodatkowych usług korzystamy.
 
 ## Najważniejsze rozróżnienie
 
 ```text
 historia
 ≠ pamięć
+≠ personalizacja
 ≠ ulepszanie modeli
 ≠ integracje zewnętrzne
 ```
 
 Traktowanie tych mechanizmów jako jednej rzeczy prowadzi do wielu nieporozumień.
+
+## Źródła i aktualność
+
+Przy decyzjach dotyczących prywatności warto sprawdzać aktualne materiały OpenAI:
+
+- Data Controls FAQ: https://help.openai.com/en/articles/7730893
+- Temporary Chat in ChatGPT: https://help.openai.com/en/articles/8914046
+- How your data is used to improve model performance: https://help.openai.com/en/articles/5722486

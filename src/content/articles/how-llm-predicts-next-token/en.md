@@ -7,7 +7,7 @@ translationKey: how-llm-predicts-next-token
 tags: [llm, tokens, probability, temperature]
 insights:
   - "An LLM generates an answer step by step by predicting successive tokens."
-  - "The most probable token does not have to be selected on every run."
+  - "When generation uses sampling, the most probable token does not have to be selected at every step."
   - "Temperature changes the sampling distribution, not the model's knowledge."
 draft: false
 ---
@@ -30,11 +30,15 @@ P("dog" | "Alice has a") = 1/3 ≈ 33.3%
 
 ## Will the model always choose “cat”?
 
-No. `cat` can remain the top token while an individual sample still selects `dog`.
+If generation uses **sampling**, no. `cat` can remain the top token while an individual sample still selects `dog`.
+
+With **greedy decoding**, the model would choose the token with the highest probability.
 
 ## Where temperature comes in
 
 Lower temperature sharpens the distribution; higher temperature flattens it.
+
+Temperature matters when a token is sampled from the distribution. It does not mean the model “knows more” or starts “thinking more creatively” at a higher temperature — it changes how the distribution is sampled.
 
 ```text
 pᵢ' = pᵢ^(1/T) / Σ pⱼ^(1/T)

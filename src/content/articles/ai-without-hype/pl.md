@@ -17,6 +17,8 @@ Sztuczna inteligencja jest dziś jednocześnie przeceniana i niedoceniana. Jedni
 
 Rozwój modeli językowych sprawił, że wiele zadań wcześniej wymagających specjalistycznych narzędzi można dziś wykonać przez rozmowę: streszczanie, tłumaczenie, generowanie kodu, analiza dokumentów czy porządkowanie informacji.
 
+Modele językowe są dziś jednym z najbardziej widocznych zastosowań AI, ale **AI jest pojęciem szerszym niż LLM**. Obejmuje także inne rodzaje systemów, np. modele wizyjne, systemy rekomendacyjne czy rozwiązania do rozpoznawania wzorców.
+
 ## Co właściwie robi LLM
 
 Model językowy przewiduje kolejne tokeny na podstawie kontekstu. Nie oznacza to jednak, że jego zachowanie można sprowadzić do prostego „zgadywania”. Skala treningu i liczba parametrów pozwalają mu uchwycić wiele zależności w języku i danych.

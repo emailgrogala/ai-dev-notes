@@ -10,8 +10,8 @@ tags:
   - embeddings
   - context
 insights:
-  - "A context window defines how much information a model can process at once, not how much knowledge it has."
-  - "Embeddings represent meaning numerically and make semantic search possible."
+  - "A context window defines how many tokens a model can handle in one run, not how much knowledge it has."
+  - "Embeddings are learned vector representations that make semantic similarity search possible."
   - "RAG combines retrieval with generation: it finds relevant information first and only then passes it to the model."
 draft: false
 ---
@@ -28,7 +28,7 @@ RAG            → how relevant information is found and passed to the model
 
 ## Context window
 
-The context window is the amount of information a model can consider during one interaction.
+The context window defines how many tokens a model can handle in one run. It includes the supplied context and, depending on the model and how the limit is defined, space needed for the generated output.
 
 It may contain:
 - system instructions,
@@ -57,7 +57,7 @@ If the user asks about one insurance policy, sending ten thousand documents is n
 
 ## Embeddings
 
-An embedding is a numerical representation of meaning.
+An embedding is a learned numerical representation of content. It is not a literal encoding of “meaning”, but it makes semantic features and similarity measurable.
 
 Conceptually:
 
@@ -85,11 +85,7 @@ Embeddings are useful for:
 - finding similar documents,
 - recommendations.
 
-They are often stored in vector databases such as:
-- Qdrant,
-- pgvector,
-- Pinecone,
-- Weaviate.
+They are often stored and searched using vector databases and related technologies such as Qdrant, Pinecone, Weaviate, or PostgreSQL with the pgvector extension.
 
 ## What is RAG?
 
@@ -118,6 +114,8 @@ answer
 The model does not need the entire knowledge base.
 
 It receives only the selected fragments.
+
+RAG **does not change the model's weights**. It supplies additional information at query time, which makes it different from training or fine-tuning.
 
 ## Context windows and RAG are not competitors
 

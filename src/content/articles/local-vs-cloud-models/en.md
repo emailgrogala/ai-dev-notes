@@ -24,6 +24,8 @@ There is no universal answer.
 
 Both approaches solve different problems.
 
+One important distinction: **local vs cloud describes where and how the model runs, not its license**. A locally run model does not have to be open source, and an open-weight model can also be offered through a hosted API.
+
 ## Two architectures
 
 ### Local model
@@ -75,8 +77,10 @@ Quantization reduces the precision used to store model weights.
 
 This can:
 - reduce memory requirements,
-- improve inference speed,
+- improve inference speed in some setups,
 - make larger models usable on smaller hardware.
+
+The speed effect depends on the hardware, quantization format, and inference runtime.
 
 The trade-off may be some loss of quality.
 
@@ -114,7 +118,7 @@ For business systems, this is often an architecture and governance decision.
 
 ## Model quality
 
-Cloud providers often have an advantage here.
+For the largest and newest models, cloud services often have an advantage because they can provide infrastructure that is difficult to reproduce locally.
 
 They can serve models that are:
 - larger,

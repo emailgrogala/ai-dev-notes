@@ -23,7 +23,7 @@ The model creates larger pieces such as components, tests, types, or validation.
 
 ## Level 3: AI inside the repository
 
-An agent can:
+An agent with the right tools and permissions can:
 
 ```text
 read the repository
@@ -56,8 +56,11 @@ A practical pattern is:
 ```text
 Agent 1 → implementation
 Agent 2 → review
+tests   → independent signal
 Human   → decision
 ```
+
+A second agent does not guarantee an independent assessment. It may share similar mistakes or assumptions with the first agent, so agent review is stronger when combined with tests and a human decision.
 
 ## How the developer role changes
 

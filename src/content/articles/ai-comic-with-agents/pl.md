@@ -78,6 +78,8 @@ Dopiero potem generowane były kolejne ujęcia z Implementerem, Reviewerem i UX.
 
 To okazało się ważne, bo przy generowaniu obrazów największym problemem nie jest samo stworzenie pojedynczej sceny, ale zachowanie **spójności** między kolejnymi scenami.
 
+Kadr referencyjny pomaga utrzymać kierunek wizualny, ale nie gwarantuje pełnej spójności kolejnych generacji — postacie, detale i proporcje nadal mogą się zmieniać.
+
 ## Spójność jest ważniejsza niż dodatkowe efekty
 
 W takim materiale łatwo skupić się na animacji, ruchu kamery albo efektach.
@@ -117,9 +119,11 @@ Wsparło kilka etapów:
 - zaplanowanie storyboardu,
 - zaproponowanie stylu wizualnego,
 - generowanie kolejnych scen,
-- ocenę, czy animacja jest w ogóle potrzebna.
+- porównanie wariantów i argumentów dotyczących tego, czy animacja jest w ogóle potrzebna.
 
 To pokazuje szerszą wartość takiego sposobu pracy. Najciekawsze nie zawsze jest samo „wygenerowanie obrazka”, ale szybkie przechodzenie przez kolejne wersje pomysłu.
+
+AI pomogło porównać warianty, ale decyzja o pozostaniu przy komiksie została podjęta po ocenie gotowych rezultatów. To ważne rozróżnienie: AI wspierało analizę, a wybór finalnej formy pozostał decyzją człowieka.
 
 ## Co z tego wynika
 
@@ -130,3 +134,5 @@ Ten mały eksperyment dobrze pokazuje jedną praktyczną zasadę:
 Na początku film wydawał się naturalnym kierunkiem. Po kilku iteracjach okazało się, że komiks jest czytelniejszy, szybszy w odbiorze i bardziej pasuje do samego żartu.
 
 To właśnie takie małe decyzje są ciekawym elementem pracy z AI — narzędzie pomaga wygenerować więcej możliwości, ale wybór finalnej formy nadal pozostaje decyzją człowieka.
+
+Ten eksperyment pokazał też coś jeszcze: AI może nie tylko przyspieszać wykonanie pierwotnego planu, ale pomóc zauważyć, że sam plan był niepotrzebnie złożony.

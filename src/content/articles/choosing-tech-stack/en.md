@@ -19,11 +19,11 @@ The project needed repository-based articles, simple publishing, little JavaScri
 
 ## Why not plain React
 
-React is excellent for interactive applications, but most of this site is static content. There was no need to turn the entire site into a client-side application.
+React is excellent for interactive applications, but most of this site is static content. There was no need to build the entire site around React or hydrate a large part of the interface on the client.
 
 ## Why not Angular
 
-Angular is strong for large business applications, but its architecture would be larger than the problem here.
+Angular provides a comprehensive, standardized application framework. In this small content-first project, most of that framework would not be necessary.
 
 ## Why not Next.js
 
@@ -47,6 +47,8 @@ GitHub Pages
 
 JavaScript can be added only where interaction is needed — for example in an educational sandbox — without turning the whole page into an SPA.
 
+Islands do not mean “no JavaScript”. They mean that JavaScript can be shipped only where a particular interaction actually needs it.
+
 ## Markdown as architecture
 
 Frontmatter stores title, language, tags, `translationKey`, draft status, and now the article's main `insights`.
@@ -55,11 +57,13 @@ Frontmatter stores title, language, tags, `translationKey`, draft status, and no
 
 No. Tools fit different problems.
 
+An example mapping, not a universal rule:
+
 ```text
-large business application → Angular
-interactive UI → React
-React + SSR/backend → Next.js
-content + selective interactivity → Astro
+large application needing a cohesive framework → Angular may fit
+lots of custom interactive UI → React may fit
+React + full-stack routing/rendering → Next.js may fit
+content-first + selective interactivity → Astro may fit
 ```
 
 The useful rule is:
